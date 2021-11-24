@@ -1,28 +1,59 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app" class="note">
+    <MenuView></MenuView>
+    <transition name="page">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MenuView from './views/MenuView.vue';
+import TodoListView from './views/TodoListView.vue';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    MenuView,
+    TodoListView,
+  },
+  data() {
+    return {
+     
+    }
+  },
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="scss">
+  @import url('https://fonts.googleapis.com/css2?family=Shippori+Antique&display=swap');
+  @import url('~@/assets/scss/reset.scss'); 
+  
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Shippori Antique', sans-serif;
+
+    // @TODO 왜 reset.scss가 말을 안듣지?
+    button {
+      cursor: pointer;
+    }
+  }
+
+  .note {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background: #f0efe9;
+  }
+
+  /* router transition */
+  .page-enter-active, .page-leave-active { 
+    transition: opacity .5s;
+  }
+ 
+  .page-enter, .page-leave-to { 
+    opacity: 0;
+  }
+  
 </style>
