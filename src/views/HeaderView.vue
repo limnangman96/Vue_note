@@ -15,30 +15,18 @@
     </header>
 </template>
 <script>
+import { todayMixin } from '../mixins/getTodayMixins';
+
 export default {
     data() {
         return {
             year: "",
-            day: "",
+            month: "",
             date: "",
-            day: ""
+            day: "",
         }
-        
     },
-    created() {
-        const moment = require('moment'); // moment 모듈불러오기
-        const year = moment().format("YYYY");
-        const month = moment().format("MM");
-        const date = moment().format("DD");
-        const dayArr = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
-        const today = new Date();
-        const day = dayArr[today.getDay()]
-
-        this.year = year;
-        this.month = month;
-        this.date = date;
-        this.day = day;
-    }
+    mixins: [todayMixin]
 }
 </script>
 <style lang="scss">

@@ -4,11 +4,10 @@
     <div class="todo__wrapper">
         <!-- 헤더 영역 -->
         <HeaderView></HeaderView>
+        <div></div>
 
         <!-- 리스트 영역 -->
-        <div class="todo__inner">
-        <ListView></ListView>
-        </div>
+        <ListView class="todo__inner"></ListView>
 
         <!-- 리스트 추가 버튼 -->
         <button type="button" class="todo__add" @click="modalStatus = true">add</button>
@@ -23,7 +22,6 @@
 import HeaderView from './HeaderView.vue';
 import ListView from './ListView.vue';
 import AddListView from './AddListView.vue';
-import bus from '../util/bus.js';
 
 export default {
   components: {

@@ -1,7 +1,7 @@
 // 리스트 삭제하고 수정하는 페이지
 <template>
     <ul>
-        <li class="todo__list js__list" v-for="item in this.todoDataArr">
+        <li class="todo__list js__list" v-for="item in this.$store.state.todoData">
             <!-- 리스트 내용 -->
             <a class="todo__list__link js__list__link" @click="listEdit">
                 <p class="todo__list__text js__list__text">
@@ -25,7 +25,7 @@
             <div class="todo__list__edit js__edit">
                 <div class="edit__inner">
                     <label class="edit__label">
-                        <input type="text" class="edit__input js__edit__input">
+                        <input @keyup.enter="editComplete" type="text" class="edit__input js__edit__input">
                     </label>
 
                     <button type="button" class="edit__button" @click="editComplete">수정완료</button>
@@ -35,53 +35,52 @@
     </ul>
 </template>
 <script>
-import bus from '../util/bus.js';
 
 export default {
     data() {
         return {
             checked: false,
-            todoDataArr: [],
         }
     },
     methods: {
         isChecked(e) {
             const parent = e.target.closest(".js__list");
+            // const checkedText = parent.querySelector(".js__list__text").innerText;
+
             if (e.target.checked) {
-                parent.querySelector(".js__list__link").classList.add("done");
-                
+                parent.classList.add("done");
+                // this.doneList.push(checkedText);
             } else {
-                parent.querySelector(".js__list__link").classList.remove("done");
-            }
-        },
-        drawList () {
-            if (localStorage.getItem("todoList")) {
-                this.todoDataArr = JSON.parse(localStorage.getItem("todoList"));
+                parent.classList.remove("done");
+                // const unCheckedIndex = this.doneList.indexOf(checkedText);
+                // this.doneList.splice(unCheckedIndex, 1);
             }
         },
         listEdit(e) {
             const parent = e.target.closest(".js__list");
             parent.querySelector(".js__edit").classList.add("show");
-            parent.querySelector(".edit__input").value = e.target.innerText
+            parent.querySelector(".edit__input").value = e.target.innerText;
         },
         editComplete(e) {
             const parent = e.target.closest(".js__list");
             const editArea = parent.querySelector(".js__edit");
-            const oriIText = parent.querySelector(".js__list__text");
+            const oriText = parent.querySelector(".js__list__text");
             const editText = parent.querySelector(".js__edit__input");
+            const editValue = editText.value.trim();
 
-            if (editText.value.trim().length <= 0) {
+            if (editValue.length <= 0) {
                 alert("please check your answer !");      
                 return;
             }
 
-            const arrIndexNum = this.todoDataArr.indexOf(oriIText.innerText);
-            this.todoDataArr[arrIndexNum] = editText.value; //데이터에서 값 바꿔치기
+            const arrIndexNum = this.$store.state.todoData.indexOf(oriText.innerText); //store 내 해당 값 index
+            const editData = {    
+                value: editValue,
+                index: arrIndexNum,
+            }
             
-            localStorage.setItem("todoList", JSON.stringify(this.todoDataArr)); //로컬스토리지에 데이터 업데이트!
-
-            oriIText.innerText = editText.value; //입력한 input값 <p>태그에 넣어주기
-
+            this.$store.dispatch("EDIT_TODO", editData); //store 업데이트
+            oriText.innerText = editValue; //입력한 input값 <p>태그에 넣어주기
             editArea.classList.remove("show");
         },
         listDelete(e) {
@@ -89,20 +88,35 @@ export default {
             if (!response) return;
 
             const parent = e.target.closest(".js__list");
-            const targetText = parent.querySelector(".js__list__text");
-            const arrIndexNum = this.todoDataArr.indexOf(targetText.innerText);
+            const deleteText = parent.querySelector(".js__list__text");
 
-            this.todoDataArr.splice(arrIndexNum, 1); //데이터에서 값 제거
+            // parent.remove(); //@TODO222
+            const arrIndexNum = this.$store.state.todoData.indexOf(deleteText.innerText); //store 내 해당 값 index
+            this.$store.dispatch("DELETE_TODO", arrIndexNum); //store 업데이트 //@TODO222
 
-            localStorage.setItem("todoList", JSON.stringify(this.todoDataArr)); //로컬스토리지에 데이터 업데이트!
-
-            parent.remove(); //해당리스트 삭제
-        }
+            // this.doneList.splice(this.doneList.indexOf(deleteText.innerText), 1) //donelist 데이터 업데이트
+        },
     },
-    created() {
-        const oriLocalStorage = localStorage.getItem("todoList") ? JSON.parse(localStorage.getItem("todoList")) : []
-        this.todoDataArr = oriLocalStorage;
-        bus.$on("modal:add", this.drawList);
+    mounted() {
+        // DOM이 처음 그려졌을 때 완료한(done) 리스트 화면에 그려주기
+        // if (!localStorage.getItem("done") || !JSON.parse(localStorage.getItem("done")).length) return; //null이거나 0이면 return
+        // this.doneList = JSON.parse(localStorage.getItem("done")); //로컬스토리지 저장된 값 > 데이터에 덮어씌움
+        
+        // const list = document.querySelectorAll(".js__list__text");
+        // let arrIndex = 0;
+
+        // list.forEach(item => { 
+        //     arrIndex = this.doneList.indexOf(item.innerText); 
+        //     if (arrIndex != -1) { 
+        //         item.closest(".js__list").classList.add("done"); 
+        //         item.closest(".js__list").querySelector("input").setAttribute("checked", true);
+        //     }
+        // });
+    },
+    watch: {
+        // doneList: function() {
+        //     localStorage.setItem("done", JSON.stringify(this.doneList)); //데이터 > 로컬스토리지 저장
+        // }
     }
 }
 </script>
@@ -116,20 +130,24 @@ export default {
             padding: 20px 0;
             box-sizing: border-box;
 
+            &.done {
+                .todo__list__link {
+                    pointer-events: none;
+                    cursor: default;
+                }
+
+                .todo__list__text {
+                    color: #ddd;
+                }
+            }
+
             &__link {
                 display: block;
                 position: relative;
                 width: calc(100% - 80px);
                 cursor: pointer;
 
-                &.done {
-                    pointer-events: none;
-                    cursor: default;
-
-                    .todo__list__text {
-                        color: #ddd;
-                    }
-                }
+               
             }
 
             &__text {

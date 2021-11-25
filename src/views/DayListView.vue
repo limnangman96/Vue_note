@@ -19,8 +19,6 @@
 export default {
     data() {
         return {
-            year: "",
-            month: "",
             day: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
             thisDate: [],
         }
@@ -35,15 +33,11 @@ export default {
         // @TODO 스크립트 정리하기
         // @TODO 조건문에 따라 클래스를 추가해줄수 있지 않을까? (v-for 돌릴때)
 
-        const today = new Date;
-
         // 연도, 월 구하기
+        const today = new Date;
         const year = today.getFullYear();
-        const monthArr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
         const month = today.getMonth();
         const day = today.getDate();
-        this.year = year;
-        this.month = monthArr[month];
 
         // 지난 달 마지막 날짜/요일
         const prevLast = new Date(year, month, 0);

@@ -5,24 +5,22 @@
         <!-- 모달 -->
         <div class="todo__addPop__cont">
             <label class="todo__addPop__label">
-                <input type="text" class="todo__addPop__input" placeholder="input your plan" v-model="inputValue">
+                <input @keyup.enter="inputCheck" type="text" class="todo__addPop__input" placeholder="input your plan" v-model="inputValue">
             </label>
 
             <div class="todo__addPop__buttonWrap">
-                <button type="button" @click="saveInputValue" class="todo__addPop__add">추가하기</button>
-                <button type="button" @click="$emit('modal:cancel')" class="todo__addPop__cancle js__cancel">취소하기</button>
+                <button type="button" @click="inputCheck" class="todo__addPop__add">추가하기</button>
+                <button type="button" @click="modalClose" class="todo__addPop__cancle js__cancel">취소하기</button>
             </div>
         </div>
     </div>
 </template>
 <script>
-import bus from '../util/bus.js';
 
 export default {
     data() {
         return {
             inputValue : '',
-            todoDataArr: [],
         }
     },
     props: {
@@ -32,32 +30,29 @@ export default {
         }
     },
     methods: {
-        saveInputValue() {
+        inputCheck() {
             const value = this.inputValue.trim();
 
             if (value.length <= 0) {
                 alert("please check your answer !");                
                 return;
             } 
-            
-            this.todoDataArr.push(value); //새로운 데이터를 todoDataArr에 저장
-            localStorage.setItem("todoList", JSON.stringify(this.todoDataArr)); //todoAr 통째로 로컬스토리지에 덮어쓰기
-            
-            bus.$emit("modal:add"); //ListView에 리스트 추가하기
 
-            document.querySelector(".js__cancel").click(); //모달닫기
-
+            this.saveTodo(value); //입력한 값 store에 저장
+            this.modalClose(); 
+        },
+        saveTodo(value) {
+            this.$store.dispatch("GET_TODO", value); //input 스토어에 저장
+        },
+        modalClose() {
             this.inputValue = ""; //input 비우기
-        }
+            this.$emit('modal:cancel'); //모달 닫기
+        },
 
-        // @TODO enter치면 리스트추가 버튼 click();
-        // @TODO 추가하기 모달에서 input 입력하고 닫기 버튼 누르면 input 내용 삭제되어야 한다. 
-        // @TODO 추가하는 데이터랑 삭제하는 데이터가 서로 같은걸 공유하지 않다보니 맞물려서 오류가 생김
     },
     created() {
-        const oriLocalStorage = localStorage.getItem("todoList") ? JSON.parse(localStorage.getItem("todoList")) : []
-        this.todoDataArr = oriLocalStorage; //기존에 저장되어있던 로컬스토리지를 todoAr에 불러와 넣어줌
-    }
+      
+    },
 }
 </script>
 <style lang="scss">

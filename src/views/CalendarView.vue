@@ -3,8 +3,8 @@
         <header class="calendar__header">
             <button class="calendar__header__button prev">이전</button>
             <div class="calendar__header__title">
-                <span class="title__month">Nov</span>
-                <span class="title__year">2021</span>
+                <span class="title__month">{{ this.monthText }}</span>
+                <span class="title__year">{{ this.year }}</span>
             </div>
             <button class="calendar__header__button next">다음</button>
         </header>
@@ -12,12 +12,20 @@
     </div>
 </template>
 <script>
-import DayListView from './DayListView.vue'
+import DayListView from './DayListView.vue';
+import { todayMixin } from '../mixins/getTodayMixins';
+
 export default {
+    data() {
+        return {
+            year: "",
+            monthText: "",
+        }
+    },
     components: {
         DayListView,
-    }
-    // @TODO headerView에 있는 오늘날짜 계산값을 index.js로 빼든지 해서 공통으로 쓰자
+    },
+    mixins: [todayMixin]
 }
 </script>
 <style lang="scss">

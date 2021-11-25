@@ -25,8 +25,7 @@ export const router = new VueRouter({
         {
             path: "/timer",
             component: TimerView,
-        }
-        ,
+        },
         {
             path: "/weather",
             component: WeatherView,
