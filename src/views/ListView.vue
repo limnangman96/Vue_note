@@ -1,4 +1,3 @@
-// 리스트 삭제하고 수정하는 페이지
 <template>
     <ul>
         <li class="todo__list js__list" v-for="item in this.$store.state.todoData">
@@ -39,21 +38,22 @@
 export default {
     data() {
         return {
+            doneList: [],
             checked: false,
         }
     },
     methods: {
         isChecked(e) {
             const parent = e.target.closest(".js__list");
-            // const checkedText = parent.querySelector(".js__list__text").innerText;
+            const checkedText = parent.querySelector(".js__list__text").innerText;
 
             if (e.target.checked) {
                 parent.classList.add("done");
-                // this.doneList.push(checkedText);
+                this.doneList.push(checkedText);
             } else {
                 parent.classList.remove("done");
-                // const unCheckedIndex = this.doneList.indexOf(checkedText);
-                // this.doneList.splice(unCheckedIndex, 1);
+                const unCheckedIndex = this.doneList.indexOf(checkedText);
+                this.doneList.splice(unCheckedIndex, 1);
             }
         },
         listEdit(e) {
@@ -94,29 +94,29 @@ export default {
             const arrIndexNum = this.$store.state.todoData.indexOf(deleteText.innerText); //store 내 해당 값 index
             this.$store.dispatch("DELETE_TODO", arrIndexNum); //store 업데이트 //@TODO222
 
-            // this.doneList.splice(this.doneList.indexOf(deleteText.innerText), 1) //donelist 데이터 업데이트
+            this.doneList.splice(this.doneList.indexOf(deleteText.innerText), 1) //donelist 데이터 업데이트
         },
     },
     mounted() {
         // DOM이 처음 그려졌을 때 완료한(done) 리스트 화면에 그려주기
-        // if (!localStorage.getItem("done") || !JSON.parse(localStorage.getItem("done")).length) return; //null이거나 0이면 return
-        // this.doneList = JSON.parse(localStorage.getItem("done")); //로컬스토리지 저장된 값 > 데이터에 덮어씌움
+        if (!localStorage.getItem("done") || !JSON.parse(localStorage.getItem("done")).length) return; //null이거나 0이면 return
+        this.doneList = JSON.parse(localStorage.getItem("done")); //로컬스토리지 저장된 값 > 데이터에 덮어씌움
         
-        // const list = document.querySelectorAll(".js__list__text");
-        // let arrIndex = 0;
+        const list = document.querySelectorAll(".js__list__text");
+        let arrIndex = 0;
 
-        // list.forEach(item => { 
-        //     arrIndex = this.doneList.indexOf(item.innerText); 
-        //     if (arrIndex != -1) { 
-        //         item.closest(".js__list").classList.add("done"); 
-        //         item.closest(".js__list").querySelector("input").setAttribute("checked", true);
-        //     }
-        // });
+        list.forEach(item => { 
+            arrIndex = this.doneList.indexOf(item.innerText); 
+            if (arrIndex != -1) { 
+                item.closest(".js__list").classList.add("done"); 
+                item.closest(".js__list").querySelector("input").setAttribute("checked", true);
+            }
+        });
     },
     watch: {
-        // doneList: function() {
-        //     localStorage.setItem("done", JSON.stringify(this.doneList)); //데이터 > 로컬스토리지 저장
-        // }
+        doneList: function() {
+            localStorage.setItem("done", JSON.stringify(this.doneList)); //데이터 > 로컬스토리지 저장
+        }
     }
 }
 </script>
