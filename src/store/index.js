@@ -9,29 +9,55 @@ export const store = new Vuex.Store({
     state: { //state는 컴포넌트 간에 공유할 data 속성을 의미
         todoData: [],
     },
-    mutations: { //동기처리 로직
-        SET_TODO(state, sendData) {
-            state.todoData.push(sendData);
+    mutations: { 
+        SET_TODO(state, dataObj) {
+            state.todoData.push(dataObj);
         },
-        SET_DELETE_TODO(state, index) {
-            state.todoData.splice(index, 1);
+        SET_DELETE_TODO(state, item) {
+            state.todoData.forEach((ele, index) => {
+                if (ele.value === item.value) {
+                    state.todoData.splice(index, 1);
+                }
+            });
         },
-        SET_EDIT_TODO(state, dataObj) {
-            state.todoData[dataObj.index] = dataObj.value;
+        SET_EDIT_TODO(state, editData) {
+            state.todoData.forEach(ele => {
+                if (ele.value === editData.before) {
+                    ele.value = editData.after;
+                }
+            })
         },
+        CHECK_STATUS(state, item) {
+            // ....
+        }
     },
-    actions: { //비동기 처리 로직 (setTimeout 이나 서버와의 http 통신 처리 같이 결과 받는 타이밍이 예측되지 않는 로직)
-        GET_TODO({ commit }, sendData) {
-            return commit("SET_TODO", sendData);
+    actions: { //비동기 처리 로직
+        GET_TODO({ commit }, dataObj) {
+            commit("SET_TODO", dataObj);
         },
-        DELETE_TODO({commit}, index) {
-            return commit("SET_DELETE_TODO", index);
+        DELETE_TODO({commit}, item) {
+            commit("SET_DELETE_TODO", item);
         },
-        EDIT_TODO({commit}, dataObj) {
-            return commit("SET_EDIT_TODO", dataObj);
+        EDIT_TODO({commit}, editData) {
+            commit("SET_EDIT_TODO", editData);
         },
+        STATUS_CHANGE({commit}, item) {   
+            commit("CHECK_STATUS", item);
+        }
     },
     plugins: [ //플러그인 출처 : https://kyounghwan01.github.io/blog/Vue/vuex/vuex-persistedstate/
         createPersistedState()
     ]
 });
+
+
+/**
+ * 데이터 통신 및 형태 
+ * 모든걸 store에서 추가하고 변경하고 삭제한다. 
+ * store는 localstorage와 통신한다. 
+ * sotre에 저장되는 데이터는
+ *      "todoData" : [{
+ *          value: status 로 저장한다.
+ *      }]
+ * 
+ */

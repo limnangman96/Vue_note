@@ -4,18 +4,18 @@
             <!-- 리스트 내용 -->
             <a class="todo__list__link js__list__link" @click="listEdit">
                 <p class="todo__list__text js__list__text">
-                    {{ item }}
+                    {{ item.value }}
                 </p>
             </a>
 
             <!-- 리스트 삭제/완료 -->
             <div class="todo__list__buttonWrap">
-                <button type="button" @click="listDelete" class="todo__list__delete js__list__delete">
+                <button type="button" @click="listDelete(item)" class="todo__list__delete js__list__delete">
                     삭제하기
                 </button>
 
                 <label class="todo__list__check">
-                    <input type="checkbox" @change="isChecked">
+                    <input type="checkbox" @change="changeStatus($event, item)">
                     <span>체크여부</span>
                 </label>
             </div>
@@ -36,25 +36,24 @@
 <script>
 
 export default {
-    data() {
-        return {
-            doneList: [],
-            checked: false,
-        }
+    mounted() {
+        // DOM이 처음 그려졌을 때 완료한(done) 리스트 화면에 그려주기
+        if( !this.$store.state.todoData.length ) return;
+
+        const list = document.querySelectorAll(".js__list");
+
+        this.$store.state.todoData.forEach((item, index)  => {
+            if (item.completed) { //완료 상태면
+                list[index].classList.add("done");
+                list[index].querySelector(".todo__list__check input").checked = true;
+            } 
+        });
     },
     methods: {
-        isChecked(e) {
-            const parent = e.target.closest(".js__list");
-            const checkedText = parent.querySelector(".js__list__text").innerText;
-
-            if (e.target.checked) {
-                parent.classList.add("done");
-                this.doneList.push(checkedText);
-            } else {
-                parent.classList.remove("done");
-                const unCheckedIndex = this.doneList.indexOf(checkedText);
-                this.doneList.splice(unCheckedIndex, 1);
-            }
+        changeStatus($event, item) {
+            item.completed = $event.target.checked;
+            $event.target.closest(".js__list").classList.toggle("done");
+            this.$store.dispatch("STATUS_CHANGE", item);
         },
         listEdit(e) {
             const parent = e.target.closest(".js__list");
@@ -64,60 +63,45 @@ export default {
         editComplete(e) {
             const parent = e.target.closest(".js__list");
             const editArea = parent.querySelector(".js__edit");
-            const oriText = parent.querySelector(".js__list__text");
-            const editText = parent.querySelector(".js__edit__input");
-            const editValue = editText.value.trim();
+            const oriText = parent.querySelector(".js__list__text").innerText;
+            const editText = parent.querySelector(".js__edit__input").value.trim();
 
-            if (editValue.length <= 0) {
+            if (editText.length <= 0) {
                 alert("please check your answer !");      
                 return;
             }
 
-            const arrIndexNum = this.$store.state.todoData.indexOf(oriText.innerText); //store 내 해당 값 index
-            const editData = {    
-                value: editValue,
-                index: arrIndexNum,
+            const editData = { 
+                before: oriText, 
+                after: editText 
             }
-            
-            this.$store.dispatch("EDIT_TODO", editData); //store 업데이트
-            oriText.innerText = editValue; //입력한 input값 <p>태그에 넣어주기
+
+            this.$store.dispatch("EDIT_TODO", editData);
             editArea.classList.remove("show");
         },
-        listDelete(e) {
+        listDelete(item) {
             const response = confirm("삭제하시겠습니까?");
             if (!response) return;
 
-            const parent = e.target.closest(".js__list");
-            const deleteText = parent.querySelector(".js__list__text");
-
-            // parent.remove(); //@TODO222
-            const arrIndexNum = this.$store.state.todoData.indexOf(deleteText.innerText); //store 내 해당 값 index
-            this.$store.dispatch("DELETE_TODO", arrIndexNum); //store 업데이트 //@TODO222
-
-            this.doneList.splice(this.doneList.indexOf(deleteText.innerText), 1) //donelist 데이터 업데이트
+            this.$store.dispatch("DELETE_TODO", item);
+            this.update();
         },
-    },
-    mounted() {
-        // DOM이 처음 그려졌을 때 완료한(done) 리스트 화면에 그려주기
-        if (!localStorage.getItem("done") || !JSON.parse(localStorage.getItem("done")).length) return; //null이거나 0이면 return
-        this.doneList = JSON.parse(localStorage.getItem("done")); //로컬스토리지 저장된 값 > 데이터에 덮어씌움
-        
-        const list = document.querySelectorAll(".js__list__text");
-        let arrIndex = 0;
+        update() {
+            if( !this.$store.state.todoData.length ) return;
+            
+            const list = document.querySelectorAll(".js__list");
 
-        list.forEach(item => { 
-            arrIndex = this.doneList.indexOf(item.innerText); 
-            if (arrIndex != -1) { 
-                item.closest(".js__list").classList.add("done"); 
-                item.closest(".js__list").querySelector("input").setAttribute("checked", true);
-            }
-        });
-    },
-    watch: {
-        doneList: function() {
-            localStorage.setItem("done", JSON.stringify(this.doneList)); //데이터 > 로컬스토리지 저장
+            this.$store.state.todoData.forEach((item, index)  => {
+                if (item.completed) { //완료 상태면
+                    list[index].classList.add("done");
+                    list[index].querySelector(".todo__list__check input").checked = true;
+                } else {
+                    list[index].classList.remove("done");
+                    list[index].querySelector(".todo__list__check input").checked = false;
+                }
+            });
         }
-    }
+    },
 }
 </script>
 <style lang="scss" scope>

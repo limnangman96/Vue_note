@@ -1,4 +1,3 @@
-// 리스트 추가하는 페이지
 <template lang="">
     <!-- 모달 배경 (딤) -->
     <div class="todo__addPop" v-if="isModalOpen">
@@ -36,22 +35,23 @@ export default {
             if (value.length <= 0) {
                 alert("please check your answer !");                
                 return;
-            } 
+            }
+            
+            const valueInfo = { //추후 input checked 정보를 status에 넣기 위해 객체로 형태로 만듦
+                value: value,
+                completed: false
+            }
 
-            this.saveTodo(value); //입력한 값 store에 저장
+            this.saveTodo(valueInfo); //입력한 값 store에 저장
             this.modalClose(); 
         },
-        saveTodo(value) {
-            this.$store.dispatch("GET_TODO", value); //input 스토어에 저장
+        saveTodo(valueInfo) {
+            this.$store.dispatch("GET_TODO", valueInfo); //input 스토어에 저장
         },
         modalClose() {
             this.inputValue = ""; //input 비우기
             this.$emit('modal:cancel'); //모달 닫기
         },
-
-    },
-    created() {
-      
     },
 }
 </script>
