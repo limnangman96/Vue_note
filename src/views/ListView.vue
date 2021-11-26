@@ -146,8 +146,6 @@ export default {
                 position: relative;
                 width: calc(100% - 80px);
                 cursor: pointer;
-
-               
             }
 
             &__text {

@@ -1,7 +1,7 @@
 <template lang="">
     <nav class="menu">
-      <router-link :to="`/${item.toLowerCase()}`" class="menu__tab js__menu" v-for="item in menu">
-        {{ item }}
+      <router-link :to="`/${item}`" class="menu__tab js__menu" v-for="item in menu">
+        {{ item.toUpperCase() }}
       </router-link>
     </nav>
 </template>
@@ -9,7 +9,7 @@
 export default {
     data() {
       return {
-        menu: ["TODOLIST", "CALENDAR", "TIMER", "WEATHER"],
+        menu: ["todolist", "calendar", "timer", "weather"],
       }
     },
     methods: {
