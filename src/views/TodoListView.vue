@@ -4,7 +4,6 @@
     <div class="todo__wrapper">
         <!-- 헤더 영역 -->
         <HeaderView></HeaderView>
-        <div></div>
 
         <!-- 리스트 영역 -->
         <ListView class="todo__inner"></ListView>

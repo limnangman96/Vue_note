@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <header class="todo__header">
         <!-- 왼쪽 -->
         <div class="todo__header__left">
