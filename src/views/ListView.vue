@@ -50,16 +50,19 @@ export default {
         });
     },
     methods: {
+        /* 완료/미완료 처리 */
         changeStatus($event, item) {
-            item.completed = $event.target.checked;
-            $event.target.closest(".js__list").classList.toggle("done");
-            this.$store.dispatch("STATUS_CHANGE", item);
+            item.completed = $event.target.checked; //input checkbox 값을 넣음 (true/false)
+            $event.target.closest(".js__list").classList.toggle("done"); 
+            this.$store.dispatch("STATUS_CHANGE", item); 
         },
+        /* 리스트 수정 */
         listEdit(e) {
             const parent = e.target.closest(".js__list");
             parent.querySelector(".js__edit").classList.add("show");
             parent.querySelector(".edit__input").value = e.target.innerText;
         },
+        /* 리스트 수정완료 */
         editComplete(e) {
             const parent = e.target.closest(".js__list");
             const editArea = parent.querySelector(".js__edit");
@@ -88,7 +91,7 @@ export default {
         },
         update() {
             if( !this.$store.state.todoData.length ) return;
-            
+
             const list = document.querySelectorAll(".js__list");
 
             this.$store.state.todoData.forEach((item, index)  => {
