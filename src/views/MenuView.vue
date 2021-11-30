@@ -1,6 +1,6 @@
 <template lang="">
     <nav class="menu">
-      <router-link :to="`/${item}`" class="menu__tab js__menu" v-for="item in menu">
+      <router-link :to="`/${item}`" class="menu__tab js__menu" v-for="(item, index) in menu" :key="index">
         {{ item.toUpperCase() }}
       </router-link>
     </nav>
@@ -12,10 +12,20 @@ export default {
         menu: ["todolist", "calendar", "timer", "weather"],
       }
     },
-    methods: {
-     
+    created() {
+      // 컴포넌트 생성 시 데이터를 패치
+      this.fetchMenu()
     },
-}
+    watch: {
+      // $route의 속성이 변경될 때 마다 getchMenu 함수가 실행되게끔
+      '$route': 'fetchMenu'
+    },
+    methods: {
+      fetchMenu() { //@TODO 라우트 이용하여 메뉴 보여주기
+        console.log(this.$route.name)
+      }
+    },
+} 
 </script>
 
 <style lang="scss">

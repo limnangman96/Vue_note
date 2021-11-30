@@ -15,18 +15,22 @@ export const router = new VueRouter({
             redirect: "/todolist",
         },
         {
+            name: "TODOLIST",
             path: "/todolist",
             component: TodoListView,
         },
         {
+            name: "CALENDAR",
             path: "/calendar",
             component: CalendarView,
         },
         {
+            name: "TIMER",
             path: "/timer",
             component: TimerView,
         },
         {
+            name: "WEATHER",
             path: "/weather",
             component: WeatherView,
         }

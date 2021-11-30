@@ -1,54 +1,47 @@
 <template>
-    <ul>
-        <li class="todo__list js__list" v-for="item in this.$store.state.todoData">
-            <!-- 리스트 내용 -->
-            <a class="todo__list__link js__list__link" @click="listEdit">
-                <p class="todo__list__text js__list__text">
-                    {{ item.value }}
-                </p>
-            </a>
+    <div>
+        <ul v-if="this.$store.state.todoData.length">
+            <li v-for="(item, index) in this.$store.state.todoData" :key="index" :class="{'done' : item.completed === true}" class="todo__list js__list">
+                <!-- 리스트 내용 -->
+                <a href="#" @click="listEdit" class="todo__list__link js__list__link">
+                    <p class="todo__list__text js__list__text">
+                        {{ item.value }}
+                    </p>
+                </a>
 
-            <!-- 리스트 삭제/완료 -->
-            <div class="todo__list__buttonWrap">
-                <button type="button" @click="listDelete(item)" class="todo__list__delete js__list__delete">
-                    삭제하기
-                </button>
+                <!-- 리스트 삭제/완료 -->
+                <div class="todo__list__buttonWrap">
+                    <button type="button" @click="listDelete(item)" class="todo__list__delete js__list__delete">
+                        삭제하기
+                    </button>
 
-                <label class="todo__list__check">
-                    <input type="checkbox" @change="changeStatus($event, item)">
-                    <span>체크여부</span>
-                </label>
-            </div>
-
-            <!-- 리스트 수정 -->
-            <div class="todo__list__edit js__edit">
-                <div class="edit__inner">
-                    <label class="edit__label">
-                        <input @keyup.enter="editComplete" type="text" class="edit__input js__edit__input">
+                    <label class="todo__list__check">
+                        <input type="checkbox" :checked="item.completed === true" @change="changeStatus($event, item)">
+                        <span>체크여부</span>
                     </label>
-
-                    <button type="button" class="edit__button" @click="editComplete">수정완료</button>
                 </div>
-            </div>
-        </li>
-    </ul>
+
+                <!-- 리스트 수정 -->
+                <div class="todo__list__edit js__edit">
+                    <div class="edit__inner">
+                        <label class="edit__label">
+                            <input @keyup.enter="editComplete" type="text" class="edit__input js__edit__input">
+                        </label>
+
+                        <button type="button" class="edit__button" @click="editComplete">수정완료</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <p v-else>
+            등록된 todo list가 없습니다.
+        </p>
+    </div>
 </template>
+
 <script>
-
 export default {
-    mounted() {
-        // DOM이 처음 그려졌을 때 완료한(done) 리스트 화면에 그려주기
-        if( !this.$store.state.todoData.length ) return;
-
-        const list = document.querySelectorAll(".js__list");
-
-        this.$store.state.todoData.forEach((item, index)  => {
-            if (item.completed) { //완료 상태면
-                list[index].classList.add("done");
-                list[index].querySelector(".todo__list__check input").checked = true;
-            } 
-        });
-    },
     methods: {
         /* 완료/미완료 처리 */
         changeStatus($event, item) {
@@ -58,6 +51,8 @@ export default {
         },
         /* 리스트 수정 */
         listEdit(e) {
+            e.preventDefault();
+            
             const parent = e.target.closest(".js__list");
             parent.querySelector(".js__edit").classList.add("show");
             parent.querySelector(".edit__input").value = e.target.innerText;
@@ -76,7 +71,7 @@ export default {
 
             const editData = { 
                 before: oriText, 
-                after: editText 
+                after: editText, 
             }
 
             this.$store.dispatch("EDIT_TODO", editData);

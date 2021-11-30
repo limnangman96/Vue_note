@@ -2,13 +2,13 @@
     <div>
         <div class="calendar__inner">
             <div class="calendar__top">
-                <span href="#" v-for="item in day" class="calendar__item">
+                <span v-for="(item, index) in day" :key="index" class="calendar__item">
                     {{ item }}
                 </span>
             </div>
             
             <div class="calendar__cont">
-                <a href="#" v-for="item in thisDate" class="calendar__item calendar__date js__calendar__date" @click="dateClick">
+                <a href="#" v-for="(item, index) in thisDate" :key="index" @click="dateClick" class="calendar__item calendar__date js__calendar__date">
                     {{ item }}
                 </a>
             </div>
