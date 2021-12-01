@@ -1,15 +1,15 @@
-<template lang="">
+<template>
     <!-- 모달 배경 (딤) -->
-    <div class="todo__addPop" v-if="isModalOpen">
+    <div v-if="isModalOpen" class="todo__addPop">
         <!-- 모달 -->
         <div class="todo__addPop__cont">
             <label class="todo__addPop__label">
-                <input @keyup.enter="inputCheck" type="text" class="todo__addPop__input" placeholder="input your plan" v-model="inputValue">
+                <input type="text" @keyup.enter="inputCheck" v-model="inputValue" placeholder="input your plan" class="todo__addPop__input">
             </label>
 
             <div class="todo__addPop__buttonWrap">
                 <button type="button" @click="inputCheck" class="todo__addPop__add">추가하기</button>
-                <button type="button" @click="modalClose" class="todo__addPop__cancle js__cancel">취소하기</button>
+                <button type="button" @click="modalClose" class="todo__addPop__cancle">취소하기</button>
             </div>
         </div>
     </div>
@@ -20,12 +20,14 @@ export default {
     data() {
         return {
             inputValue : '',
+            idValue: localStorage.getItem("todoData") ? JSON.parse(localStorage.getItem("todoData"))[JSON.parse(localStorage.getItem("todoData")).length - 1].id + 1 : 0,
         }
     },
     props: {
         isModalOpen: {
             type: Boolean,
             required: true,
+            // @TODO default 값???
         }
     },
     methods: {
@@ -38,15 +40,17 @@ export default {
             }
             
             const valueInfo = { //추후 input checked 정보를 status에 넣기 위해 객체로 형태로 만듦
+                id: Number(this.idValue),
                 value: value,
-                completed: false
+                completed: false,
             }
 
             this.saveTodo(valueInfo); //입력한 값 store에 저장
             this.modalClose(); 
         },
         saveTodo(valueInfo) {
-            this.$store.dispatch("GET_TODO", valueInfo); //input 스토어에 저장
+            this.$store.dispatch("ADD_TODO", valueInfo); //input 스토어에 저장
+            this.idValue++;
         },
         modalClose() {
             this.inputValue = ""; //input 비우기

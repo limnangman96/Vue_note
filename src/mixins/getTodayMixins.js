@@ -1,6 +1,7 @@
+import moment from 'moment';
+
 export const todayMixin = {
     mounted() {
-        const moment = require('moment'); //moment 모듈불러오기
         const year = moment().format("YYYY");
         const month = moment().format("MM");
         const date = moment().format("DD");

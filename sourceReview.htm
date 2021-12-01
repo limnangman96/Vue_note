@@ -2,7 +2,7 @@
 
 1. (✔)  npm i / vue create : 설치에 어떤 차이가 있는지 
 2. (✔)  routes > mode : # 붙으면 뭐가 안좋은지?
-3. ( )  메뉴 이름 > routes 에서 설정한 대로 나오게끔 하기 
+3. (✔)  메뉴 이름 > routes 에서 설정한 대로 나오게끔 하기 
 4. (✔)  transition > class / event 다 조사해오기 
 5. (✔)       > css 왜 그렇게 적용했는지 이유 리포팅 
 6. (✔)  moment > require 말고 다르게 쓸 수 있는 방법 
@@ -11,25 +11,25 @@
 9. (✔)  ref 무엇인지 ...querySelector 
 10.(✔)  소스에 빨간줄 왜 그어지는지
 11.(✔)  <a> 태그에 href 이런 기본적인 것은 지키자. 그리고 click 이벤트에 <a>태그는 아니지 않나?
-12.( )  e.target.checked로 가져오지 않고 체크 여부 알수 있는 방법 
-13.( )  querySelector쓰지말기 (element 건드리지 말기)
-14.( )  vue 데이터에 접근해야 하는데 자바스크립트로 함 > vue 방식으로 수정하기 
+12.(✔)  e.target.checked로 가져오지 않고 체크 여부 알수 있는 방법 
+13.(✔)  querySelector쓰지말기 (element 건드리지 말기)
+14.(✔)  vue 데이터에 접근해야 하는데 자바스크립트로 함 > vue 방식으로 수정하기 
 15.(✔)  v-model / v-bind / v-on / getters / : / @
-16.(✔)  scoped 의미, 전체에서 접근할 수 있는 scss 파일 만들지 왜 ?
+16.( )  scoped 의미, 전체에서 접근할 수 있는 scss 파일 만들지 왜 ?
 17.( )  $emit, $on 공부
 18.( )  props default값 넣어주기 + return 값 넣어주면 뭐가 달라지는지 ?
 19.(✔)  data () { return{ } } return 쓰는 이유 > 민주매니저님께 이야기 듣기 
 20.(✔)  v-show / v-if 차이 알아오기 
 21.( )  @click = "" 할 때, 함수 실행이면 괄호 쳐주고( clickEvent() ), 바인딩이면 함수명만 써주기 약속 
 22.( )  html 내 추가하여 적을 때 기본속성은 앞에, v- 는 뒤에 <a href="#" v-if="" v-for=""></a>
-23.( )  store > 로컬스토리지 : 플러그인 쓰지 말고 코드로 직접 구현해보기 
+23.(✔)  store > 로컬스토리지 : 플러그인 쓰지 말고 코드로 직접 구현해보기 
 24.( )  vue 공식문서 읽어보기. option은 위에 랭킹되어 있을 수록 많이 쓰인다는 뜻! 되도록 다 외우기 
-25.( )  forEach 돌릴 때 el 이런식으로 불명확하게 쓰지 말기 
-26.( )  🎈 state 에 todoData forEach 안돌리고 쓸 수 있는 방법 (key 값이나 공유한 값으로 비교하기)
-27.( )  🎈 setEditTodo 같은 값이면 다 같이 바뀐다. 
+25.(✔)  forEach 돌릴 때 el 이런식으로 불명확하게 쓰지 말기 
+26.(✔)  🎈 state 에 todoData forEach 안돌리고 쓸 수 있는 방법 (key 값이나 공유한 값으로 비교하기)
+27.(✔)  🎈 setEditTodo 같은 값이면 다 같이 바뀐다. 
 28.( )  findIndex 무엇인지 알아보고 적용해보기
 
-소스 왜 이렇게 짰나? "그냥요"는 안된다 . 
+소스 왜 이렇게 짰나? "그냥요"는 안된다. 
 질문할 때 본인이 하는 질문 명확히 알고 하기 
 
 
@@ -634,4 +634,4 @@
     let arr = [10,17,18,12,90,32]
     let test = (el) => el > 18;
     arr.findIndex(test);  //4
-</28>
+</28> 
