@@ -3,59 +3,45 @@
 1. (✔)  npm i / vue create : 설치에 어떤 차이가 있는지 
 2. (✔)  routes > mode : # 붙으면 뭐가 안좋은지?
 3. (✔)  메뉴 이름 > routes 에서 설정한 대로 나오게끔 하기 
-4. (✔)  transition > class / event 다 조사해오기 
-5. (✔)       > css 왜 그렇게 적용했는지 이유 리포팅 
+4. (🎈)  transition > class / event 다 조사해오기 
+5. (✔)  transition > css 왜 그렇게 적용했는지 이유 말하기 
 6. (✔)  moment > require 말고 다르게 쓸 수 있는 방법 
-7. (✔)       용량 줄여서 적용하는 방법 
+7. (✔)  moment > 용량 줄여서 적용하는 방법 
 8. (✔)  mounted 사용하지 말기 > 템플릿에서 v-for 돌릴 때 조건 걸어서 쓰는 방법
-9. (✔)  ref 무엇인지 ...querySelector 
+9. (✔)  ref 무엇인지 알아오기 (querySelector 관련되어)
 10.(✔)  소스에 빨간줄 왜 그어지는지
-11.(✔)  <a> 태그에 href 이런 기본적인 것은 지키자. 그리고 click 이벤트에 <a>태그는 아니지 않나?
+11.(✔)  <a> : click 이벤트에 <a>태그는 아니지 않나? 쓸거면 href 이런 기본적인 것은 지키자.
 12.(✔)  e.target.checked로 가져오지 않고 체크 여부 알수 있는 방법 
-13.(✔)  querySelector쓰지말기 (element 건드리지 말기)
+13.(✔)  querySelector쓰지말기 (DOM element 건드리지 말기)
 14.(✔)  vue 데이터에 접근해야 하는데 자바스크립트로 함 > vue 방식으로 수정하기 
 15.(✔)  v-model / v-bind / v-on / getters / : / @
-16.( )  scoped 의미, 전체에서 접근할 수 있는 scss 파일 만들지 왜 ?
-17.( )  $emit, $on 공부
-18.( )  props default값 넣어주기 + return 값 넣어주면 뭐가 달라지는지 ?
+16.(✔)  scoped 의미, 전체에서 접근할 수 있는 scss 파일 만들지 왜 ?
+17.(✔)  $emit, v-on 공부
+18.(🎈)  props default값 넣어주기
 19.(✔)  data () { return{ } } return 쓰는 이유 > 민주매니저님께 이야기 듣기 
 20.(✔)  v-show / v-if 차이 알아오기 
-21.( )  @click = "" 할 때, 함수 실행이면 괄호 쳐주고( clickEvent() ), 바인딩이면 함수명만 써주기 약속 
-22.( )  html 내 추가하여 적을 때 기본속성은 앞에, v- 는 뒤에 <a href="#" v-if="" v-for=""></a>
+21.(✔)  @click = "" 할 때, 함수 실행이면 괄호 쳐주고( clickEvent() ), 바인딩이면 함수명만 써주기 약속 
+22.(✔)  html 내 인라인으로 추가할 때 기본속성은 앞에(type, href), v- 는 뒤에 <a href="#" v-if="" v-for=""></a>
 23.(✔)  store > 로컬스토리지 : 플러그인 쓰지 말고 코드로 직접 구현해보기 
-24.( )  vue 공식문서 읽어보기. option은 위에 랭킹되어 있을 수록 많이 쓰인다는 뜻! 되도록 다 외우기 
+24.(🎈)  vue 공식문서 읽어보기. option은 위에 랭킹되어 있을 수록 많이 쓰인다는 뜻! 되도록 다 외우기 
 25.(✔)  forEach 돌릴 때 el 이런식으로 불명확하게 쓰지 말기 
-26.(✔)  🎈 state 에 todoData forEach 안돌리고 쓸 수 있는 방법 (key 값이나 공유한 값으로 비교하기)
-27.(✔)  🎈 setEditTodo 같은 값이면 다 같이 바뀐다. 
-28.( )  findIndex 무엇인지 알아보고 적용해보기
-
-소스 왜 이렇게 짰나? "그냥요"는 안된다. 
-질문할 때 본인이 하는 질문 명확히 알고 하기 
+26.(✔)  state 에 todoData forEach 안돌리고 쓸 수 있는 방법 (key 값이나 공유한 값으로 비교하기)
+27.(✔)  setEditTodo 같은 값이면 다 같이 바뀐다. 고유한 key 값 필요
+28.(✔)  findIndex 무엇인지 알아보고 적용해보기
 
 
+/* 소스 왜 이렇게 짰나? "그냥요"는 안된다. 
+질문할 때 본인이 하는 질문 명확히 알고 하기 */
 
 
 2차 소스리뷰 : 21/12/02 목요일 5:00-6:00
 
-
-
-
 <1>
     ❤ npm i / vue create : 설치에 어떤 차이가 있는지
-        # cli 설치방법 (1)
+        # cli 설치방법
             npm install -g @vue/cli 
             vue create 프로젝트명 
             > Default ([Vue2] babel, eslint) 선택  
-
-        # cli 설치방법 (2)
-            CLI에서 설치 
-            vue create 프로젝트명
-            > Manually select features 선택 
-            
-            > Choose Vue version
-            > Babel
-            > Router
-            > Linter / Formatter 
 
         # Vue CLI는 애플리케이션에 필요한 요소들을 대화형 커맨드로 쉽게 설치하도록 도와준다. 
             Vue CLI의 3가지 요소
@@ -70,10 +56,10 @@
             Vue CLI를 통해 plugin을 설치하기 위해서는 vue add 커맨드를 사용하면 된다. 
             vue add axios 
             
-                *** 만약 npm i axios npm 으로 설치했다면 main.js 또는 app.js에 수동적으로 추가해주었을 Vue.use()가 자동으로 생성되어 있다. 어디에? src > main.js 에!   
+                *** 만약 (npm i axios) npm으로 설치했다면 main.js 또는 app.js에 수동적으로 추가해주었을 Vue.use()가 자동으로 생성되어 있다. 어디에? src > main.js 에!   
             
                 main.js > 
-                    import ',.plugins/axios'
+                    import '..plugins/axios'
 
         # NPM verse CLI (https://kr.vuejs.org/v2/guide/installation.html)
             
@@ -90,15 +76,13 @@
 
 
 <2>
-    ❤ routes > mode : # 붙으면 뭐가 안좋은지? @TODO 😆😆😆 보충해서 보기
-
-    https://blinders.tistory.com/76
+    ❤ routes > mode : # 붙으면 뭐가 안좋은지? (https://blinders.tistory.com/76)
     
     url에 붙는 해시태그의 주요역할은 브라우저의 인식인데, 기본적으로 브라우저는 #이 붙은 url의 뒷 내용은 인지하지 못한다. 일반적인 경우에 # 뒤의 값이 변하더라도 브라우저는 새로운 화면을 로드하지 않는다. 때문에  
     http://localhost:9090/#/book/main 에서 main이 아닌 rent로 이동한다고 해도 브라우저는 화면이 전환되었다고 인지하지 못한다는 것. 대신에 vue-router가 그걸 인지하고 url에 알맞게 매핑된 컴포넌트를 호출해준다. 
 
 
-    반면에 해시태그가 없는 경우, 브라우저 스스로가 url이 바뀌었음을 인지하게 된다. 페이지를 다시 로드하지 않고 url을 탐색할 수 있다. 그리고 그에 따라서 알맞은 vue 컴포넌트를 호출하게 되는데 단, 이 경우에는 적절하게 매핑된 컴포넌트가 없을 경우 서버측으로부터의 404에러(not found)가 발생한다. 
+    반면에 해시태그가 없는 경우, 브라우저 스스로가 url이 바뀌었음을 인지하게 된다. history.pushState API 이용하여 페이지를 다시 로드하지 않고 url을 탐색할 수 있다. 그리고 그에 따라서 알맞은 vue 컴포넌트를 호출하게 되는데 단, 이 경우에는 적절하게 매핑된 컴포넌트가 없을 경우 서버측으로부터의 404에러(not found)가 발생한다. 
     
     서버를 구성하는 방법 (apache 변경) 😆😆😆 https://blog.1day1.org/611
         <IfModule mod_rewrite.c>
@@ -110,7 +94,7 @@
             RewriteRule . /index.html [L]
         </IfModule>
 
-    이럴때는 사용자에게 404에러가 발생했음을 알리기 위해 route에 다음과 같이 설정하여 페이지를 만든다.  
+    또 사용자에게 404에러가 발생했음을 알리기 위해 route에 다음과 같이 설정하여 페이지를 만든다.  
 
         {
             path: "/:catchAll(.*)", //:catehAll은 동적세그먼트이며 (.*)은 모든 항목과 일치하는 정규식
@@ -135,7 +119,7 @@
             v-leave-active : leave에 대한 활성 및 종료상태. 진출 트랜지션이 트리거되면 적용되고 트랜지션 / 애니메이션이 완료되면 제거된다. 
             v-leave-to : 2.1.8 이상 버전에서 지원됨. 진출상태의 끝에서 실행된다. 진출 트랜지션이 트리거 되고, (동시에 v-leave가 제거됨) 트랜지션/애니메이션이 끝나면 제거된다. 
 
-            각 클래스에는 트랜지션 이름이 접두어로 붙는다. 기본값은 v- 이며, <transition name = "my-transi"> 을 사용하면 v-enter 클래스는 my-transi-enter가 된다.
+            각 클래스에는 트랜지션 이름이 접두어로 붙는다. 기본값은 v- 이며, <transition name="my-transi"> 을 사용하면 v-enter 클래스는 my-transi-enter가 된다.
         
         [ 트랜지션 지속시간 : duration ]
         <transition> 컴포넌트에 duration 속성을 사용하여 명시적인 트랜지션 지속 시간(밀리 초)를 지정할 수 있다. 
@@ -173,13 +157,12 @@
                 ></transition>
             사용자정의 javascript 훅을 사용할 수도 있다.
                 <transition
-                appear
-                appear-class="custom-appear-class"
-                appear-active-class="custom-appear-active-class"
-            ></transition>
+                    appear
+                    v-on:appear-class="custom-appear-class"
+                    v-on:appear-active-class="custom-appear-active-class"
+                ></transition>
 
         [ 엘리먼트간 트랜지션 v-if / v-else ]
-            컴포넌트 사이의 트랜지션에 대해서는 나중에 설명하지만 v-if / v-else 를 사용하여 원본 엘리먼트 사이를 트랜지션 할 수도 있다. 
                 <transition>
                     <table v-if="items.length > 0">
                         <!-- ... -->
@@ -187,14 +170,14 @@
                     <p v-else>콘텐츠가 없습니다.</p>
                 </transition>
 
-                *** 이 때 같은 태그 이름을 가진 엘리먼트 사이를 트랜지션 할 때, Vue에 고유한 'key' 속성을 부여함으로써 별개의 엘리먼트임을 말해줘야 한다. 그렇지 않으면 Vue의 컴파일러는 효율성을 위해 엘리먼트의 내용만 바꾼다. 기술적으로 불필요하더라도, 항상 키핑하는 것이 좋다. 
+                *** 이 때 같은 태그 이름을 가진 엘리먼트 사이를 트랜지션 할 때, Vue에 고유한 'key' 속성을 부여함으로써 별개의 엘리먼트임을 말해줘야 한다. 그렇지 않으면 Vue의 컴파일러는 효율성을 위해 엘리먼트의 내용만 바꾼다. 기술적으로 불필요하더라도, 항상 key값을 부여한는 것이 좋다. 
                 
                 <transition>
                     <button v-if="isEditing" key="save">
-                    Save
+                        Save
                     </button>
                     <button v-else key="edit">
-                    Edit
+                        Edit
                     </button>
                 </transition>
                 
@@ -202,7 +185,7 @@
 
                 <transition>
                     <button type="button" v-bind:key="isEditing">
-                        {{ isEditing ? 'save' : Edit }}
+                        {{ isEditing ? 'save' : edit }}
                     </button>
                 </transition> 
         
@@ -299,7 +282,9 @@
                     }
                 })
 
-        [ 동적 트랜지션 v-bind ]  @TODO 😆😆😆 보충해서 보기
+
+
+        [ 동적 트랜지션 v-bind ]  @TODO 보충해서 보기
             Vue의 트랜지션도 데이터 기반이다. 동적 변환의 가장 기본적인 예제는 name 속성을 동적 속성에 바인딩한다. 
                 <transition v-bind:name="transitionName">
                     <!-- ... -->
@@ -350,39 +335,41 @@
 
 <5>
     ❤ transition > css 왜 그렇게 적용했는지 이유 리포팅 
-    진입했을 때는 opacity가 0이었다가 0.5초 동안 선명해지게끔 이미 나간 뒤에도 1초 동안 opacity로 여운을 주기위하여
+    진입했을 때는 opacity가 0이었다가 0.5초 동안 선명해지게끔 이미 나간 뒤에도 0.5초동안 opacity로 여운을 주기위하여
 </5>
 
 
 
 <6>
     ❤ moment > require 말고 다르게 쓸 수 있는 방법 
+        const moment = require("moment"); 
+        import moment from "moment";
+
         # require("something");
+
             Node.JS 에서는 require 메서드를 통해 외부 모듈을 가지고 올 수 있다. require 메서드는 node가 local object에 추가한 메서드로서 다음과 같이 파라미터로 추가할 모듈의 파일 경로값을 받는다. 
             const something = require("파일 경로");
 
         # 외부 라이브러리를 불러오는 코드 ( https://www.daleseo.com/js-module-import/ )
+            
             require : CommonJS 방식을 따름 (Ruby)
-
-                특정 변수나 그 변수의 속성으로 내보낼 객체를 세팅해주어야 한다.
-                주의사항 : exports 변수와 module.exports 변수를 상황에 맞게 사용해야 한다
-                    - exports : 단일객체 내보낼 경우, exports 변수의 속성으로 할당 
-                    - module.exports : 복수객체를 내보낼 경우 변수 자체에 할당  
+                - exports :  복수객체를 내보낼 경우 변수 자체에 할당  
+                - module.exports : 단일객체 내보낼 경우, exports 변수의 속성으로 할당
 
                 복수객체 내보내기
                     #currency-functions.js > 내보내기
                         const exchangeRate = 0.91;
 
                         function roundTwoDecimals(amount) {
-                        return Math.round(amount * 100) / 100;
+                            return Math.round(amount * 100) / 100;
                         }
 
                         const canadianToUs = function (canadian) {
-                        return roundTwoDecimals(canadian * exchangeRate);
+                            return roundTwoDecimals(canadian * exchangeRate);
                         };
 
                         function usToCanadian(us) {
-                        return roundTwoDecimals(us / exchangeRate);
+                            return roundTwoDecimals(us / exchangeRate);
                         }
 
                         exports.canadianToUs = canadianToUs; // 내보내기 1
@@ -397,11 +384,11 @@
                     #currency-class.js  > 한 객체에 담아 내보내기
                         const obj = {};
                         obj.canadianToUs = function (canadian) {
-                        return roundTwoDecimals(canadian * exchangeRate);
+                            return roundTwoDecimals(canadian * exchangeRate);
                         };
 
                         obj.usToCanadian = function (us) {
-                        return roundTwoDecimals(us / exchangeRate);
+                            return roundTwoDecimals(us / exchangeRate);
                         };
 
                         module.exports = obj;
@@ -412,13 +399,12 @@
                         console.log(currency.usToCanadian(30));
                 
                         
-            import  : ES6 방식을 따름 (Java/Python)
+            import : ES6 방식을 따름 (Java/Python)
                 
-            CommonJS 방식 대비 가독성이 좋다. 또한 비동기 방식으로 작동하고 모듈에서 실제로 쓰이는 부분만 불러오기
-            때문에 성능과 메모리 부분에서 유리한 측면이 있다. 
+                CommonJS 방식 대비 가독성이 좋다. 또한 비동기 방식으로 작동하고 모듈에서 실제로 쓰이는 부분만 불러오기 때문에 성능과 메모리 부분에서 유리한 측면이 있다. 
 
-                - export : 단일 내보낼 경우
-                - export default : 복수 내보낼 경우  
+                - export : 복수 내보낼 경우
+                - export default : 단일 내보낼 경우
 
                 복수객체 내보내기
                     #currency-functions.js > 내보내기
@@ -443,14 +429,10 @@
                     #test-currency-functions.js > 접근
                         // Destructuring
                         import { canadianToUs } from "./currency-functions";
-
-                        console.log("50 Canadian dollars equals this amount of US dollars:");
                         console.log(canadianToUs(50));
 
                         // Alias (별명으로 붙러오기)
                         import * as currency from "./currency-functions";
-
-                        console.log("30 US dollars equals this amount of Canadian dollars:");
                         console.log(currency.usToCanadian(30));
 
                 단일객체 내보내기 > 하나의 객체에 두 함수 담아서 내보내기 이름없이 내보냈기에 받을 때 이름지어주기
@@ -477,11 +459,6 @@
                         import currency from "./currency-object";
                         console.log(currency.canadianToUs(50));
                         console.log(currency.usToCanadian(30));
-                        
-                    
-        
-        const moment = require("moment"); 
-        import moment from "moment";
 </6>
 
 
@@ -515,8 +492,7 @@
 <9>
     ❤ ref 무엇인지
 
-    getElementsById getElementsByClassName Document.creatElement() 등등 고전적인 메서드를 활용해 DOM을 직접 조작해 HTML 구조를 자바스크립트로 변경이 가능하다. 하지만 Vue는 가상DOM을 사용하기 때문에 이런 메서드의 사용을
-    피하라고 권고하고 있다. 
+    getElementsById getElementsByClassName Document.creatElement() 등등 고전적인 메서드를 활용해 DOM을 직접 조작해 HTML 구조를 자바스크립트로 변경이 가능하다. 하지만 Vue는 가상DOM을 사용하기 때문에 이런 메서드의 사용을 피하라고 권고하고 있다. 
 
     refs의 사용처는 
     첫째, Javascript로 Props&Event 거치지 않고 자식컴포넌트로 직접 접근한다.
@@ -524,7 +500,7 @@
 
     사용방법은 class를 명명하는 것 처럼 HTML엘리먼트에 ref="test"라고 명명지어주면 된다. 
 
-    사용은 this.$refs.text 이런 식으로 접근한다.
+    사용은 this.$refs.test 이런 식으로 접근한다.
 
     https://velog.io/@keywookim/B.TIL-06-vue-ref-%ED%99%9C%EC%9A%A9%ED%95%98%EA%B8%B0
 </9>
@@ -533,7 +509,7 @@
 
 <10>
     ❤ 소스에 빨간줄 왜 그어지는지
-        v-for를 사용할 때, v-bind로 key값이 요구된다. 그런데 나는 key값을 입력하지 않아 빨간줄이 떴던 것이다.
+        v-for를 사용할 때, v-bind로 key값이 요구된다.
 </10>
 
 
@@ -541,26 +517,29 @@
 <15>
     ❤ v-model / v-bind / v-on / getters / : / @
 
-    v- 접두어가 붙으면 렌더링된 DOM에 특수한 반응형 동작을 한다. 
-    기본 디렉티브 (기본 지시어)
-        v-text : innerText와 동일한 기능 수행. 태그를 인코딩하여 그대로 보여준다. 
-        v-html : innerHTML과 동일한 기능 수행. 태그를 파싱하여 화면에 구현한다. 
-        v-bind : .attr()과 비슷한 기능 수행. 태그의 속성을 동적으로 변경할 때 사용한다. 
-        v-model: 양방향 데이터를 공유할 때 사용한다. 
-        v-show : css의 display 동일한 기능을 수행한다.
-        v-if   : if 조건문 구현 
-        v-else : else 조건문 구현 
-        v-else-if : else if 조건문 구현 
-        v-for  : for 반복문 구현 
-        v-pre  : vue.js가 컴파일되지 않게 하며, {{ 머스태쉬 }}도 그대로 보여진다.
-                ( <h1 v-pre>{{ 나는야 data에 없는 값 }}</h1> v-pre 빼면 error나지만 넣으면 그대로 보여진다. )
-        v-once : vue.js가 처음 한번만 렌더링을 수행하며 데이터가 변경되어도 처음값만 보여준다. 
-        v-cloak : 컴파일 되지 않는 값이 순간 나오는 것을 막고 결과값만 보여준다. //렌더링 과정에서 깜빡이는것 방지
-        v-on   : 엘리먼트에 이벤트 리스너 연결. DOM에 이벤트가 발생했을 때 javascript를 실행한다.
+        v- 접두어가 붙으면 렌더링된 DOM에 특수한 반응형 동작을 한다. 
+            기본 디렉티브 (기본 지시어)
+                v-text : innerText와 동일한 기능 수행. 태그를 인코딩하여 그대로 보여준다. 
+                v-html : innerHTML과 동일한 기능 수행. 태그를 파싱하여 화면에 구현한다. 
+                v-bind : .attr()과 비슷한 기능 수행. 태그의 속성을 동적으로 변경할 때 사용한다. 
+                v-model: 양방향 데이터를 공유할 때 사용한다. 
+                v-show : css의 display 동일한 기능을 수행한다.
+                v-if   : if 조건문 구현 
+                v-else : else 조건문 구현 
+                v-else-if : else if 조건문 구현 
+                v-for  : for 반복문 구현 
+                v-pre  : vue.js가 컴파일되지 않게 하며, {{ 머스태쉬 }}도 그대로 보여진다.
+                        ( <h1 v-pre>{{ 나는야 data에 없는 값 }}</h1> v-pre 빼면 error나지만 넣으면 그대로 보여진다. )
+                v-once : vue.js가 처음 한번만 렌더링을 수행하며 데이터가 변경되어도 처음값만 보여준다. 
+                v-cloak : 컴파일 되지 않는 값이 순간 나오는 것을 막고 결과값만 보여준다. //렌더링 과정에서 깜빡이는것 방지
+                v-on   : 엘리먼트에 이벤트 리스너 연결. DOM에 이벤트가 발생했을 때 javascript를 실행한다.
 
-    short-hand 기호
-        : v-bind 대신 콜론(:)을 이용하기도 한다.
-        @ v-on 대신 @을 이용한다. ++ v-on 이벤트리스너는 항상 자동으로 소문자 변환된다.
+        short-hand 기호
+            : v-bind 대신 콜론(:)을 이용하기도 한다.
+            @ v-on 대신 @을 이용한다. ++ v-on 이벤트리스너는 항상 자동으로 소문자 변환된다.
+
+        getters 
+            state를 기반으로 계산을 해야할 때 컴포넌트에서 공통으로 계산하는 것을 넣어주어 효율성 가독성을 높인다. 
 </15>
 
 
@@ -572,36 +551,35 @@
 
 
 <17>
-    $emit, v-on 공부 https://whitepro.tistory.com/255
+    ❤ $emit, v-on 공부
+        this.$emit("이벤트명", 넘겨줄값)
 
-    +++ 이벤트 이름은 Kebab Case로 작성하는 것이 권장된다. 
-    Camel Case
-        lim Ji Won     
-    Kebab Case 
-        lim-ji-won 
-    Snake Case
-        lim_ji_won
-        LIM_JI_WON
-    Pascal Case
-        Lim Ji Won
-            
-
+    +++ 이벤트 이름, props 이름을 대문자와 소문자를 혼용하여 작성하였다면 DOM 엘리먼트에는 Kebab Case로 작성하는 것을 권장한다.
+        Camel Case
+            lim Ji Won     
+        Kebab Case 
+            lim-ji-won 
+        Snake Case
+            lim_ji_won
+            LIM_JI_WON
+        Pascal Case
+            Lim Ji Won
 </17>
 
 
 
 <18>
-    props의 default값 넣어주기 @TODO 확인필요
+    ❤ props의 default값 넣어주기 @TODO 보충해서 이해하기
+        객체는 함수형으로 작성하여 return 하여야 한다.
 </18>
 
 
 
 <19>
     ❤ data에 return 이 쓰이는 이유
-    data가 함수형인 이유 
-        객체 형식으로 정의된 property들은 컴포넌트 사이에서 공유된다. methods나 computed는 재사용을 하기 위해 객체 형태로 제공되었지만, 데이터는 기본적으로 재사용을 하지 않고 고유의 값을 유지하길 원하기 때문에 각 컴포넌트가 분리해서 관리할 수 있도록 함수형태로 제공하는 것이다.
+        data가 함수형인 이유 
+            객체 형식으로 정의된 property들은 컴포넌트 사이에서 공유된다. methods나 computed는 재사용을 하기 위해 객체 형태로 제공되었지만, 데이터는 기본적으로 재사용을 하지 않고 고유의 값을 유지하길 원하기 때문에 각 컴포넌트가 분리해서 관리할 수 있도록 함수형태로 제공하는 것이다. (함수형태로 작성하고 return 하여 데이터 쓴다.)
 </19>
-
 
 
 
@@ -627,11 +605,11 @@
 
 
 <28>
-    findIndex 무엇인지 알아보고 적용해보기
-    Array.prototype.findIndex(callback(ele [, index[, array]]))
-    주어진 판별 함수를 만족하는 배열의 첫번째 요소에 대한 인덱스를 반환한다. 만족하는 요소가 없으면 -1을 반환한다.
-    
-    let arr = [10,17,18,12,90,32]
-    let test = (el) => el > 18;
-    arr.findIndex(test);  //4
+    ❤ findIndex 무엇인지 알아보고 적용해보기
+        Array.prototype.findIndex(callback(ele [, index[, array]]))
+        주어진 판별 함수를 만족하는 배열의 첫번째 요소에 대한 인덱스를 반환한다. 만족하는 요소가 없으면 -1을 반환한다.
+        
+        let arr = [10,17,18,12,90,32]
+        let test = (el) => el > 18;
+        arr.findIndex(test);  //4
 </28> 

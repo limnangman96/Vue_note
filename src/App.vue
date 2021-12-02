@@ -26,19 +26,8 @@ export default {
 </script>
 
 <style lang="scss">
-  @import url('https://fonts.googleapis.com/css2?family=Shippori+Antique&display=swap');
-  @import url('~@/assets/scss/reset.scss'); 
-  
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Shippori Antique', sans-serif;
-
-    // @TODO 왜 reset.scss가 말을 안듣지?
-    button {
-      cursor: pointer;
-    }
-  }
+  @import url('https://fonts.googleapis.com/css2?family=Shippori+Antique&display=swap'); //폰트
+  @import "@/assets/scss/reset.scss"; //reset
 
   .note {
     position: relative;
@@ -55,5 +44,4 @@ export default {
   .page-enter, .page-leave-to { 
     opacity: 0;
   }
-  
 </style>

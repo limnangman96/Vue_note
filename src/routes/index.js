@@ -33,6 +33,6 @@ export const router = new VueRouter({
             name: "WEATHER",
             path: "/weather",
             component: WeatherView,
-        }
+        },
     ]
 })

@@ -17,21 +17,30 @@ export const store = new Vuex.Store({
         SET_INIT_TODO(state, dataObj) {
             state.todoData = dataObj
         },
+        /* store의 length 변화 > listView에서 감시중 */
         SET_ADD_TODO(state, dataObj) {
             state.todoData.push(dataObj);
         },
         SET_DELETE_TODO(state, listId) {
             const getArrIndex = (list) => list.id === listId;
             const getDeleteIndex = state.todoData.findIndex(getArrIndex);
-            state.todoData.splice(getDeleteIndex, 1); //길이 변환됨 > localStorage 길이는 listView에서 감시 
+            state.todoData.splice(getDeleteIndex, 1); 
         },
+        /* store의 value 변화 > 각각 localstorage에 반영 */
         SET_EDIT_TODO(state, editData) {
             const getArrIndex = (list) => list.id === editData.id;
             const getEditIndex = state.todoData.findIndex(getArrIndex);
             state.todoData[getEditIndex].value = editData.value;
 
-            localStorage.setItem("todoData", JSON.stringify(state.todoData)); //@TODO 데이터값 변하는건 감시 못하나?
+            localStorage.setItem("todoData", JSON.stringify(state.todoData)); 
         },
+        SET_STATUS_CHANGE(state, changeData) {
+            state.todoData.forEach((list) => { // {[]} ::: []
+                changeData.indexOf(list.id) != -1 ? list.completed = true : list.completed = false;
+            });
+            
+            localStorage.setItem("todoData", JSON.stringify(state.todoData));
+        }
     },
     actions: { //비동기 처리 로직
         INIT_TODO({ commit }, dataObj) {
@@ -46,5 +55,8 @@ export const store = new Vuex.Store({
         EDIT_TODO({commit}, editData) {
             commit("SET_EDIT_TODO", editData);
         },
+        STATUS_CHANGE({commit}, changeData) {
+            commit("SET_STATUS_CHANGE", changeData);
+        }
     },
 });

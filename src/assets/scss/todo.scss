@@ -1,0 +1,335 @@
+@import "@/assets/scss/_variables.scss"; //컬러 변수
+
+.todo {
+    &__wrapper {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 500px;
+      padding: 50px;
+      background: #fff;
+      box-sizing: border-box;
+      box-shadow: 0 0 10px rgb(0 0 0 / 3%);
+      border-radius: 10px;
+      transform: translate(-50%, -50%);
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__left {
+            display: flex;
+            align-items: center;
+            font-size: 0;
+            color: #575757;
+        }
+
+        &__date {
+            display: inline-block;
+            font-size: 50px;
+            line-height: 1;
+            color: #575757;
+        }
+
+        &__inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 50px;
+            margin-left: 8px;
+        }
+
+        &__month {
+            font-size: 15px;
+            font-weight: bold;
+            line-height: 1;
+            color: #575757;
+        }
+
+        &__year {
+            font-size: 15px;
+            line-height: 1;
+            color: #575757;
+        }
+
+
+        &__right {
+            font-size: 15px;
+            color: #575757;
+        }
+    }
+
+    &__inner {
+      margin-top: 40px;
+    }
+
+    &__list {
+        position: relative;
+        min-height: 60px;
+        padding: 20px 0;
+        box-sizing: border-box;
+
+        &.done {
+            .todo__list__link {
+                pointer-events: none;
+                cursor: default;
+            }
+
+            .todo__list__text {
+                color: #ddd;
+            }
+        }
+
+        &__link {
+            display: block;
+            position: relative;
+            width: calc(100% - 80px);
+            cursor: pointer;
+        }
+
+        &__text {
+            color: $black;
+            font-size: 16px;
+            line-height: 20px;
+            word-break: break-all;
+        }
+
+        &__buttonWrap {
+            display: flex;
+            position: absolute;
+            top: 50%;
+            right: 0;
+            width: 62px;
+            align-items: center;
+            justify-content: space-between;
+            transform: translate(0, -50%);
+        }
+
+        &__delete {
+            position: relative;
+            width: 24px;
+            height: 24px;
+            background: url('../assets/images/icon-delete.png')no-repeat center/ auto 100%;
+            border: none;
+            font-size: 0;
+
+            &:hover {
+                background-image: url('../assets/images/icon-delete-active.png');
+            }
+        }
+
+        &__check {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            font-size: 0;
+
+            input {
+                display: none;
+            }
+
+            span {
+                display: inline-block;
+                width: 100%;
+                height: 100%;
+                border: 4px solid #eee;
+                border-radius: 50%;
+                box-sizing: border-box;
+                font-size: 0;
+                cursor: pointer;
+            }
+
+            input:checked + span {
+                border: 4px solid #50e3a4;
+            }
+        }
+
+        &__edit {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 20px 0;
+            background: #fff;
+            box-sizing: border-box;
+
+            .edit {
+                &__inner {
+                    display: flex;
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    width: 100%;
+                    font-size: 0;
+                    align-items: center;
+                    justify-content: space-between;
+                    transform: translate(0, -50%);
+                }
+
+                &__label {
+                    display: inline-block;
+                    width: calc(100% - 50px);
+                    border-bottom: 1px solid #50e3a4;
+                }
+
+                &__input {
+                    width: 100%;
+                    height: 24px;
+                    padding: 0;
+                    border: none;
+                    box-sizing: border-box;
+                    color: #50e3a4;
+                    font-size: 16px;
+                    font-family: "Shippori Antique", sans-serif;
+                    line-height: 20px;
+                    word-break: break-all;
+                }
+
+                &__button {
+                    width: 26px;
+                    height: 26px;
+                    background: #fff;
+                    border: 4px solid #50e3a4; 
+                    border-radius: 5px;
+                    font-size: 0;
+                }
+
+            }
+        }
+    }
+
+    &__add {
+      position: absolute;
+      bottom: -40px;
+      left: 50%;
+      width: 80px;
+      height: 80px;
+      padding: 0;
+      border-radius: 50%;
+      border: none;
+      background: #50e3a4;
+      box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+      font-size: 0;
+      transform: translate(-50%, 0);
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 4px;
+        background: #40a97c;
+        border-radius: 5px;
+        transform: translate(-50%, -50%);
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        display: inline-block;
+        width: 4px;
+        height: 20px;
+        background: #40a97c;
+        border-radius: 5px;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    &__addPop {
+        position: fixed;
+        z-index: 2;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.5);
+
+        &__cont {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            padding: 30px;
+            width: 500px;
+            background: #fff;
+            border-radius: 5px;
+            transform: translate(-50%, -50%);
+        }
+
+        &__label {
+            display: block;
+            padding: 0 100px 0 0;
+            box-sizing: border-box;
+        }
+
+        &__input {
+            width: 100%;
+            height: 30px;
+            padding: 0;
+            font-size: 15px;
+            font-family: "Shippori Antique", sans-serif;
+            border: none;
+        }
+
+        &__buttonWrap {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 0;
+        }
+
+        &__add {
+            display: inline-block;
+            position: relative;
+            width: 30px;
+            height: 30px;
+            margin-right: 8px;
+            padding: 0;
+            font-size: 0;
+            background: #50e3a4  url('../assets/images/icon-checked.png') no-repeat center/ 15px auto; 
+            border: none;
+            border-radius: 50%;
+        }
+
+        &__cancle {
+            display: inline-block;
+            position: relative;
+            width: 30px;
+            height: 30px;
+            padding: 0;
+            font-size: 0;
+            border: 0;
+            background: #eee;
+            border-radius: 50%;
+
+            &:before {
+                content: "";
+                width: 15px;
+                height: 3px;
+                background: #b4b4b4;
+                border-radius: 5px;
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+
+            &:after {
+                content: "";
+                width: 3px;
+                height: 15px;
+                background: #b4b4b4;
+                border-radius: 5px;
+                display: block;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(45deg);
+            }
+        }
+    }
+}
