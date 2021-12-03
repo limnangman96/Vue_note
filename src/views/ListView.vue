@@ -3,11 +3,11 @@
         <ul v-if="gettersList.length">
             <li v-for="(item, index) in gettersList" :key="index" :class="{'done' :checkedListId.indexOf(item.id) != -1}" class="todo__list">
                 <!-- 리스트 내용 -->
-                <a href="#" @click="listEdit($event, item, index)" class="todo__list__link">
+                <span @click="listEdit(item, index)" class="todo__list__link">
                     <p class="todo__list__text">
                         {{ item.value }}
                     </p>
-                </a>
+                </span>
 
                 <!-- 리스트 삭제/완료 -->
                 <div class="todo__list__buttonWrap">
@@ -78,9 +78,7 @@ export default {
         },
     },
     methods: {
-        listEdit($event, item, index) {
-            $event.preventDefault();
-
+        listEdit(item, index) {
             this.isShowEditIndex = index;
             this.afterEditText = item.value; //수정영역에 기존 텍스트 보여주기
         },
