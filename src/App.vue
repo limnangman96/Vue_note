@@ -9,13 +9,11 @@
 
 <script>
 import MenuView from './views/MenuView.vue';
-import TodoListView from './views/TodoListView.vue';
 
 export default {
   name: 'App',
   components: {
     MenuView,
-    TodoListView,
   },
   data() {
     return {

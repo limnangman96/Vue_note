@@ -605,7 +605,7 @@
 2차 소스리뷰 : 21/12/02 목요일 5:00-6:00
 
 1.  ( ) 로컬스토리지 / 스토어 너무 중구난방으로 쓰고 있음 
-2.  ( ) watch에서 deep-option 쓰면 상태변화 감지되는지?
+2.  (✔) watch에서 deep-option 쓰면 상태변화 감지되는지?
 3.  (✔) 화살표함수, 그냥 함수에서 this의 의미
 4.  (✔) <a>태그 말고 다른 태그 뭐 쓸 수 있는지 알아오고 수정하기 
 5.  (✔) @click.prevent 이렇게 쓰면 되지 않나? vue 가이드 보고 적용하기 
@@ -624,6 +624,25 @@
 18. ( ) mounted > 처음 진입시 input value 초기화 필요하다. 
                 > v-if 하면 다시 랜더링이 되니까 데이터도 다 싹 새로 그려질 것이다 ? NO! v-if를 컴포넌트 자체에 쓰면 그러하겠지만, 내부 태그에 썼기 때문에 데이터 자체는 렌더링이 된다. 
 19. ( ) v-if 는 태그에 직접쓰지 않고 <templete>에 쓴다. 
+
+
+<2>
+    ❤ watch에서 deep-option 쓰면 상태변화 감지되는지?
+      
+        출처 ::: https://ui.toast.com/weekly-pick/ko_20190307  https://velog.io/@kyh196201/Vue-watch
+        
+        ✔ watch인가 computed인가 
+          watch는 부수효과, computed는 상태변경
+          부수효과의 예로는, (1) 데이터 가져오는 것 
+                            (2) DOM 조작
+                            (3) 로컬저장소 또는 오디오 재생과 같은 브라우저 API
+        
+        ✔ watch의 속성  
+           (1) immediate ::: 페이지가 처음 로드되었을 때 감시자를 실행시키기 위한 속성 true/false
+           (2) deep ::: 대상의 속성 내부 변경 감시 true/false
+           (3) Handler ::: Vue의 watch된 속성이 변경될 때 호출될 함수를 지정한다. 
+</2>
+
 
 <3>
     ❤ 화살표함수, 그냥 함수에서 this의 의미
@@ -693,6 +712,12 @@
                         (부모에 self 걸려있고, 자식이 클릭되어도 부모(self)는 안 탄다.)
                 once : 이벤트를 한번만 발생시킴 
                 passive : preventDefault의 반대 이벤트 수식어로, 기본이벤트를 취소할 수 없게함.
+
+            (+) 추가로 공부하는 v-model 수식어
+                * v-model.수식어
+                * v-model.lazy ::: input이 아니라 change 이벤트 후에 데이터가 연동되도록 함
+                * v-model.number ::: input을 숫자로 형변환 시킴 
+                * v-model.trim ::: input을 자동으로 trim 시킴
 </5>
 
 

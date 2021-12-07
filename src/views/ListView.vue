@@ -65,13 +65,17 @@ export default {
         ...mapGetters([
             "gettersList"
         ]),
-        watchStoreLength: function() { 
+        watchStoreChange: function() { 
             return this.gettersList.length; // getters 갯수에 변화가 생기면 감지
         },
     },
     watch: {
-        watchStoreLength() { // store의 length가 변화면, 현재 store를 "로컬스토리지"에 저장
-            localStorage.setItem("todoData", JSON.stringify(this.gettersList)); 
+        watchStoreChange: { // store의 length와 값이 변하는 것을 감시
+            deep: true, //감시하고 있는 배열의 값이 변경되었다면 handler에서 해당 함수를 호출한다.
+            handler() {
+                this.upDateLocalStorage();
+            }
+            // localStorage.setItem("todoData", JSON.stringify(this.gettersList)); 
         },
         checkedListId(newValue) { // 데이터가 변하면 (완료 여부값) "store"에 저장
             this.$store.dispatch("STATUS_CHANGE", newValue);
@@ -101,6 +105,11 @@ export default {
 
             this.$store.dispatch("DELETE_TODO", item.id);
         },
+        upDateLocalStorage() {
+            // 추가, 삭제, 값이 업데이트 될 때마다 로컬스토리지 업데이트 해주는 함수
+            console.log("감시작동");
+            localStorage.setItem("todoData", JSON.stringify(this.gettersList)); //@TODO lenght는 감시중이나 여전히 수정/완료는 감시 못하고 있음... 
+        }
     },
 }
 </script>

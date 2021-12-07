@@ -32,14 +32,14 @@ export const store = new Vuex.Store({
             const getEditIndex = state.todoData.findIndex(getArrIndex);
             state.todoData[getEditIndex].value = editData.value;
 
-            localStorage.setItem("todoData", JSON.stringify(state.todoData)); 
+            // localStorage.setItem("todoData", JSON.stringify(state.todoData)); 
         },
         SET_STATUS_CHANGE(state, changeData) {
             state.todoData.forEach((list) => { // {[]} ::: []
                 changeData.indexOf(list.id) != -1 ? list.completed = true : list.completed = false;
             });
             
-            localStorage.setItem("todoData", JSON.stringify(state.todoData));
+            // localStorage.setItem("todoData", JSON.stringify(state.todoData));
         }
     },
     actions: { //비동기 처리 로직
