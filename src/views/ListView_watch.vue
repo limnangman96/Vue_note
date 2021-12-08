@@ -58,6 +58,17 @@ export default {
         ...mapGetters([
             "gettersList"
         ]),
+        watchStateChange: function() {
+            return this.gettersList; 
+        },
+    },
+    watch: {
+        watchStateChange: { 
+            deep: true,
+            handler() {
+                localStorage.setItem("todoData", JSON.stringify(this.gettersList));
+            }
+        },
     },
     methods: {
         listEdit(listValue, index) {

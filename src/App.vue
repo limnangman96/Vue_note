@@ -15,11 +15,6 @@ export default {
   components: {
     MenuView,
   },
-  data() {
-    return {
-     
-    }
-  },
 }
 </script>
 

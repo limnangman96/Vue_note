@@ -5,7 +5,7 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export const store = new Vuex.Store({
-    state: { //state는 컴포넌트 간에 공유할 data 속성을 의미
+    state: { 
         todoData: [],
     },
     getters: {
@@ -14,49 +14,31 @@ export const store = new Vuex.Store({
         }
     },
     mutations: { 
-        SET_INIT_TODO(state, dataObj) {
-            state.todoData = dataObj
+        SET_INIT_TODO(state, localData) { 
+            state.todoData = localData;
         },
-        /* store의 length 변화 > listView에서 감시중 */
-        SET_ADD_TODO(state, dataObj) {
-            state.todoData.push(dataObj);
+        SET_ADD_TODO(state, addedData) {
+            state.todoData.push(addedData);
         },
-        SET_DELETE_TODO(state, listId) {
-            const getArrIndex = (list) => list.id === listId;
-            const getDeleteIndex = state.todoData.findIndex(getArrIndex);
-            state.todoData.splice(getDeleteIndex, 1); 
+        SET_DELETE_TODO(state, listIdx) {
+            state.todoData.splice(listIdx, 1);
         },
-        /* store의 value 변화 > 각각 localstorage에 반영 */
-        SET_EDIT_TODO(state, editData) {
-            const getArrIndex = (list) => list.id === editData.id;
-            const getEditIndex = state.todoData.findIndex(getArrIndex);
-            state.todoData[getEditIndex].value = editData.value;
-
-            // localStorage.setItem("todoData", JSON.stringify(state.todoData)); 
+        SET_EDIT_TODO(state, editedData) {
+            state.todoData[editedData.index].value = editedData.value;
         },
-        SET_STATUS_CHANGE(state, changeData) {
-            state.todoData.forEach((list) => { // {[]} ::: []
-                changeData.indexOf(list.id) != -1 ? list.completed = true : list.completed = false;
-            });
-            
-            // localStorage.setItem("todoData", JSON.stringify(state.todoData));
-        }
     },
-    actions: { //비동기 처리 로직
-        INIT_TODO({ commit }, dataObj) {
-            commit("SET_INIT_TODO", dataObj);
+    actions: { 
+        INIT_TODO({ commit }, localData) {
+            commit("SET_INIT_TODO", localData);
         },
-        ADD_TODO({ commit }, dataObj) {
-            commit("SET_ADD_TODO", dataObj);
+        ADD_TODO({ commit }, addedData) {
+            commit("SET_ADD_TODO", addedData);
         },
-        DELETE_TODO({commit}, listId) {
-            commit("SET_DELETE_TODO", listId);
+        DELETE_TODO({commit}, listIdx) {
+            commit("SET_DELETE_TODO", listIdx);
         },
-        EDIT_TODO({commit}, editData) {
-            commit("SET_EDIT_TODO", editData);
+        EDIT_TODO({commit}, editedData) {
+            commit("SET_EDIT_TODO", editedData);
         },
-        STATUS_CHANGE({commit}, changeData) {
-            commit("SET_STATUS_CHANGE", changeData);
-        }
     },
 });

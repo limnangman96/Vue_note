@@ -13,8 +13,8 @@ export default {
       }
     },
     created() {
-      const getRoutes = this.$router.options.routes;
-      this.menuList = getRoutes.filter(route => !route.hasOwnProperty("redirect"));
+      const routeList = this.$router.options.routes;
+      this.menuList = routeList.filter(route => !route.hasOwnProperty("redirect"));
     }
 } 
 </script>

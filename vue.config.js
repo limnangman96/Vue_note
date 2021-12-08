@@ -11,23 +11,4 @@ module.exports = {
         }
       }
     },
-
-    // module: { 
-    //   rules: [ 
-    //     { 
-    //       test: /\.(woff|woff2|eot|ttf|svg)(\?.*$|$)/, 
-    //       loader: 'file-loader' 
-    //     } 
-    //   ] 
-    // },
-    // css: {
-    //   loaderOptions: {
-    //     sass: {
-    //       data: `
-    //         @import "@/assets/scss/reset.scss";
-    //         @import "@/assets/scss/fonts.scss";
-    //       `
-    //     }
-    //   }
-    // }
 }
