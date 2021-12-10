@@ -23,11 +23,7 @@ export default {
         }
     },
     methods: {
-        inputClear () {
-            this.inputValue = "";
-        },
         modalClose() {
-            this.inputClear();
             this.$emit("modal:close", false);
         },
         listAdd() {

@@ -17,7 +17,7 @@
                         </button>
 
                         <label class="todo__list__check">
-                            <input type="checkbox" v-model="todoList.completed" :value="index">
+                            <input type="checkbox" v-model="todoList.completed">
                             <span>체크여부</span>
                         </label>
                     </div>
@@ -41,7 +41,6 @@
                 등록된 todo list가 없습니다.
             </p>
         </template>
-
     </div>
 </template>
 
@@ -73,7 +72,7 @@ export default {
                 value: this.editedText,
             }
             this.$store.dispatch("EDIT_TODO", editedData);
-            this.editedIdx = false;
+            this.editedIdx = null;
         },
         listDelete(index) {
             if (!confirm("Do you want to delete it ?")) return;

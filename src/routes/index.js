@@ -18,6 +18,7 @@ export const router = new VueRouter({
             name: "TODOLIST",
             path: "/todolist",
             component: TodoListView,
+            // meta: {authRequired: true}
         },
         {
             name: "CALENDAR",
@@ -35,4 +36,18 @@ export const router = new VueRouter({
             component: WeatherView,
         },
     ]
-})
+});
+
+// 네이게이션 가드 > 전역가드 테스트 
+router.beforeEach(function(to, from, next) {
+    if(to.matched.some(function(routerInfo) {
+        return routerInfo.meta.authRequired;
+    })) {
+        // 인증정보가 필요한 case > 경고창은 띄우고 페이지 전환은 하지 않음
+        // console.log("인증정보가 필요한 case");
+    } else {
+        // 인증정보가 필요하지 않은 case > 페이지 전환 없음
+        // console.log("인증정보가 필요하지 않은 case");
+        next();
+    }
+});

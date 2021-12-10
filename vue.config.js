@@ -11,4 +11,11 @@ module.exports = {
         }
       }
     },
+    css: {
+      loaderOptions: { //vue-loader 의 내부 구성을 변경하는데 사용할 수 있는 css 옵션
+        sass: {
+          data: `@import "@/assets/scss/app.scss";`
+        },
+      }
+  }
 }
