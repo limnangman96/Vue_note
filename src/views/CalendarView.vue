@@ -1,87 +1,102 @@
-<template lang="">
+<template>
     <div class="calendar">
         <header class="calendar__header">
-            <button class="calendar__header__button prev">이전</button>
+            <button class="calendar__header__button prev" @click="getPrevMonth()">이전</button>
+
             <div class="calendar__header__title">
                 <span class="title__month">{{ this.monthText }}</span>
                 <span class="title__year">{{ this.year }}</span>
             </div>
-            <button class="calendar__header__button next">다음</button>
+
+            <button class="calendar__header__button next" @click="getNextMonth()">다음</button>
         </header>
-        <DayListView></DayListView>
+
+        <table class="calendar__inner">
+            <thead class="calendar__top">
+                <th v-for="(item, index) in dayList" :key="index" class="calendar__item">
+                    <span>{{ item }}</span>
+                </th>
+            </thead>
+
+            <tbody class="calendar__cont">
+                <tr>
+                    <td v-for="(item, index) in lastDateArr" :key="index + 'l'" class="calendar__item calendar__date notThisMonth">
+                        <input type="checkbox" class="calendar__date__input">                    
+                        <span>{{ item }}</span>
+                    </td>
+
+                    <td v-for="(item, index) in currDateArr" :key="index + 'c'" class="calendar__item calendar__date">
+                        <input type="checkbox" class="calendar__date__input">                    
+                        <span>{{ item }}</span>
+                    </td>
+
+                    <td v-for="(item, index) in nextDateArr" :key="index + 'n'" class="calendar__item calendar__date notThisMonth">
+                        <input type="checkbox" class="calendar__date__input">                    
+                        <span>{{ item }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 <script>
-import DayListView from './DayListView.vue';
 import { todayMixin } from '../mixins/getTodayMixins';
 
 export default {
+    mixins: [todayMixin],
     data() {
         return {
-            year: "",
             monthText: "",
+            otherMonth: 0,
+            dayList: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+            lastDateArr: [],
+            currDateArr: [],
+            nextDateArr: [],
         }
     },
-    components: {
-        DayListView,
+    mounted() {
+        this.monthText = this.getMoment.format("MMM"); //월 
+        this.drawDayList(0);
+        // console.log( this.getMoment.subtract(-5, "month").calendar() ) //이걸로 조작 가능
     },
-    mixins: [todayMixin]
-}
-</script>
-<style lang="scss">
-    .calendar {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        padding: 40px;
-        background: #fff;
-        box-sizing: border-box;
-        box-shadow: 0 0 10px rgb(0 0 0 / 3%);
-        border-radius: 10px;
-        transform: translate(-50%, -50%);
+    methods: {
+        drawDayList(num) { //DayListView에서 쓰이는 함수
+            let { currMonthFirstDay, currMonthLastDay, currMonthLastDate, lastMonthLastDate } = this.getCalendarDate(num);
+            const lastDateArr = []; 
+            const nextDateArr = [];
+            const currDateArr = [];
 
-        &__header {
-            display: flex;
-            position: relative;
-            margin-bottom: 10px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #c8c8c8;
-            box-sizing: border-box;
-            justify-content: space-between;
-            align-items: center;
-            
-            &__title {
-                .title {
-                    &__month {
-                        color: #575757;
-                        font-size: 22px;
-                        font-weight: bold;
-                    }
-
-                    &__year {
-                        margin-left: 5px;
-                        color: #c8c8c8;
-                        font-size: 22px;
-                    }
-                }
+            for (let i = currMonthFirstDay; i > 0; i--) {
+                lastDateArr.push(Number(lastMonthLastDate));
+                lastMonthLastDate -= 1;
             }
 
-            &__button {
-                width: 30px;
-                height: 30px;
-                font-size: 0;
-                background: url("../assets/images/icon-next.png")no-repeat center / auto 15px;
-                border: none;
-                border-radius: 50%;
+            for (let i = 1; i <= (6 - currMonthLastDay); i++) {
+                nextDateArr.push(i);
+            }
 
-                &.prev {
-                    transform: rotate(180deg);
-                }
+            for (let i = 1; i <= currMonthLastDate; i++) {
+                currDateArr.push(i);
+            }
 
-                &:hover {
-                    background: #e7e7e7 url("../assets/images/icon-next-white.png")no-repeat center / auto 15px;
-                }
-            }            
-        }
-    }
-</style>
+            this.lastDateArr = lastDateArr.sort(function(a,b) {return a-b});
+            this.nextDateArr = nextDateArr;
+            this.currDateArr = currDateArr;
+        },
+        getPrevMonth() {
+            let monthVal = this.otherMonth;
+            monthVal -= 1;
+            this.otherMonth = monthVal;
+
+            this.drawDayList(monthVal);
+        },
+        getNextMonth() {
+            let monthVal = this.otherMonth;
+            monthVal += 1;
+            this.otherMonth = monthVal;
+
+            this.drawDayList(monthVal);
+        },
+    },
+}
+</script>

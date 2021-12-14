@@ -43,39 +43,41 @@ export default {
     ListView,
     AddListView,
   },
+  mixins: [todayMixin],
   data() {
     return {
-      year: "",
-      month: "",
       date: "",
       day: "",
       modalStatus: false,
     }
-  },
-  created() {
-    const localData = localStorage.getItem("todoData");
-    if (localData) {
-      this.$store.dispatch("INIT_TODO", JSON.parse(localData));
-    }
-
-    window.addEventListener("beforeunload", this.saveLocalData); // 창닫기, 주소이동, 새로고침 감지 이벤트 추가
-  },
-  beforeRouteLeave(to, from, next) { // 라우트 이동 감지
-    this.saveLocalData();
-    next();
-  },
-  beforeDestroy() {
-    window.removeEventListener("beforeunload", this.saveLocalData); // 창닫기, 주소이동, 새로고침 감지 이벤트 삭제
   },
   computed: {
     ...mapGetters([
         "gettersList"
     ]),
   },
-  mixins: [todayMixin],
+  created() {
+    const localData = localStorage.getItem("todoData");
+    if (localData) {
+      this.$store.dispatch("GET_TODO", JSON.parse(localData));
+    }
+
+    window.addEventListener("beforeunload", this.saveLocalData); // 창닫기, 주소이동, 새로고침 감지
+  },
+  mounted() {
+    this.date = this.getMoment.format("DD"); //날짜
+    this.day = this.getMoment.format("dddd").toUpperCase(); //요일
+  },
+  beforeRouteLeave(to, from, next) { // 라우트 이동 감지
+    this.saveLocalData();
+    next();
+  },
+  beforeDestroy() {
+    window.removeEventListener("beforeunload", this.saveLocalData); 
+  },
   methods: {
-    modalControl(boolean) {
-      this.modalStatus = boolean;
+    modalControl(bool) {
+      this.modalStatus = bool;
     },
     saveLocalData() { //로컬스토리지 저장
       localStorage.setItem("todoData", JSON.stringify(this.gettersList));

@@ -1,0 +1,130 @@
+.calendar {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 40px;
+    background: #fff;
+    box-sizing: border-box;
+    box-shadow: 0 0 10px rgb(0 0 0 / 3%);
+    border-radius: 10px;
+    transform: translate(-50%, -50%);
+
+    &__header {
+        display: flex;
+        position: relative;
+        margin-bottom: 10px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #c8c8c8;
+        box-sizing: border-box;
+        justify-content: space-between;
+        align-items: center;
+        
+        &__title {
+            .title {
+                &__month {
+                    color: #575757;
+                    font-size: 22px;
+                    font-weight: bold;
+                }
+
+                &__year {
+                    margin-left: 5px;
+                    color: #c8c8c8;
+                    font-size: 22px;
+                }
+            }
+        }
+
+        &__button {
+            width: 30px;
+            height: 30px;
+            font-size: 0;
+            background: url("~@/assets/images/icon-next.png")no-repeat center / auto 15px;
+            border: none;
+            border-radius: 50%;
+
+            &.prev {
+                transform: rotate(180deg);
+            }
+
+            &:hover {
+                background: #e7e7e7 url("~@/assets/images/icon-next-white.png")no-repeat center / auto 15px;
+            }
+        }            
+    }
+
+    &__inner {
+        width: 350px;
+        border-spacing: 0;
+    }
+
+    &__item {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        color: #b9b9b9;
+        font-weight: normal;
+        text-align: center;
+        cursor: default;
+        box-sizing: border-box;
+
+        span {
+            display: inline-block;
+            width: 100%;
+            font-size: 18px;
+            line-height: 50px;
+        }
+    }
+
+    &__date {
+        color: #575757;
+        cursor: pointer;
+        
+        // @TODO 이번달 아닌 달
+        &.notThisMonth {
+            pointer-events: none;
+            cursor: default;
+            opacity: .2;
+        }
+
+        // @TODO 오늘 표시
+        &.today {
+            &:before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 80%;
+                height: 80%;
+                border: 2px solid #50e3a4;;
+                border-radius: 50%;
+                box-sizing: border-box;
+                transform: translate(-50%, -50%);
+            }   
+        }
+
+        &__input {
+            display: none;
+
+            &:checked {
+                & + span {
+                    position: relative;
+                    color: #fff;
+
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        z-index: -1;
+                        width: 80%;
+                        height: 80%;
+                        background: #50e3a4;
+                        border-radius: 50%;
+                        transform: translate(-50%, -50%);
+                    } 
+                }
+            }
+        }
+    }
+}

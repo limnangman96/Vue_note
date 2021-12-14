@@ -754,7 +754,7 @@
 4. (✔) 비구조분해할당 : 기본적으로 bus에서 받은 이벤트 쓰는데 aaa 추가로 import 받으려면 어떻게 해야하는지?
 5. (✔) editComplete > default: null 
 6. (✔) script에서는 this를 이용하여 전역객체에서 참조해야함 / 템플릿 안에서는 이미 Vue 인스턴스 객체 안에 있다. 
-8. ( ) input에서 t/f 값 컨트롤하고 싶을때 어떻게 써야 하는지? 
+8. (✔) input에서 t/f 값 컨트롤하고 싶을때 어떻게 써야 하는지? 
 
 9. (✔) ✨ modal 닫는 시점이 아니라, 여는 시점에서 input 삭제해야한다. v-if mounted 해보기
 10.(✔) ✨ Vue2 Vue3 라이프사이클 훅 console.log() 다 찍어보고 확인하기
@@ -762,7 +762,7 @@
 11.(✔) editCompleted에서 index 받아올게 아니라 this.editedText
 12.(✔) ListView created 삼항 연산자 말고 if문으로 처리할 수 있다. (삼항연산자는 불필요한 else 까지도 들어간다.)
 
-13.( ) 이벤트버스 콜백함수 > methods에 빼서 적용하는 방법 콜백함수 개념 알아보기 
+13.(✔) 이벤트버스 콜백함수 > methods에 빼서 적용하는 방법 콜백함수 개념 알아보기 
 
 14.(✔) moment 요일, 월 가져오는 방법 알아보기 "dddd"
 
@@ -782,6 +782,43 @@
         그래서 그 후에는 배열을 선언하고, 그곳에 체크한 아이의 index를 넣어주어 고유의 값처럼 사용하였는데
         현재는 현재 데이터의 completed 값만 수정하는 것이기 때문에 (data에 추가하여 선언하고 그 값을 컨틀로하는게 아니기  때문에) 넣어주지 않아도 된다.
 </7>
+
+<8>
+    ❤ input에서 t/f 값 컨트롤하고 싶을때 어떻게 써야 하는지? 
+        
+        방법1. @change 이벤트에 인자로 #event.target.checked 사용하기 
+
+            <label>
+                <input type="checkbox" @change="checkEvnet($event)">
+            </label>
+
+            data() {
+                return {
+                    booleanValue: false,
+                }
+            },
+            methods: {
+                checkEvnet($event) {
+                    this.booleanValue = $event.target.checked;
+                },
+            }
+
+        방법2. :cheked 속성 이용하기
+            <label>
+                <input type="checkbox" @change="checkEvnet()" :checked="checkedVal">
+            </label>
+
+            data() {
+                return {
+                    checkedVal: false,
+                }
+            },
+            methods: {
+                checkEvnet() {
+                    this.checkedVal = !this.checkedVal;
+                },
+            }
+</8>
 
 <9>
     ❤ modal 닫는 시점이 아니라, 여는 시점에서 input 삭제해야한다. v-if mounted 해보기 
@@ -830,27 +867,91 @@
 </9>    
 
 <10>
-    Vue2 Vue3 라이프사이클 훅 console.log() 다 찍어보고 확인하기
+    ❤ Vue2 Vue3 라이프사이클 훅 console.log() 다 찍어보고 확인하기
 
-    Vue2 라이프사이클
+        Vue2 라이프사이클
+        // 출처 https://medium.com/witinweb/vue-js-%EB%9D%BC%EC%9D%B4%ED%94%84%EC%82%AC%EC%9D%B4%ED%81%B4-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-7780cdd97dd4
 
-    beforeCreate
-    created
-    beforeMount
-    mounted
-    beforeUpdate
-    updated
-    beforeDestroy
-    destroyed
+        - beforeCreate
+        - created
+        - beforeMount
+        - mounted
+        - beforeUpdate
+        - updated
+        - beforeDestroy
+        - destroyed
 
-    *** 라이프사이클 훅에 접두사 "on"을 추가함으로서 컴포넌트의 라이프사이클 훅에 접근할 수 있습니다.
-    단, etup은 beforeCreate, created 라이프사이클 훅 사이에 실행되는 시점이므로 명시적으로 정의할 필요가 없다.
-    이 함수는 컴포넌트에 의해 훅이 호출될 때, 실행될 콜백을 받는다.
-    setup() {
-        noMounted(() => {
-            console.log("컴포넌트가 mounted 되었습니다!");
-        })
-    }
+        1. creation 
+            컴포넌트 초기화 단계
+            컴포넌트가 돔에 추가되기 전 실행
+            서버렌더링에서 지원되는 훅
+            클라이언트단과 서버단 렌더링 모두에서 처리해야할 일을 하기 좋은 시간
+            돔에 접근하거나 this.$el 사용불가
+            
+            beforeCreate
+                가장먼저 실행되는 훅 
+                data와 events(vm.$on, vm.$once, vm.$off, vm.$emit)가 세팅되지 않은 시점 (접근 불가)
+
+            created
+                data, events 화성화 > 접근 가능
+                구성 요소의 데이터를 가져오고 데이터를 조작하기 좋은 시간
+                템플릿과 가상돔은 마운트 및 렌더링되지 않은 상태
+                *** 부모 > 자식 순으로 실행
+
+        2. mounting
+            DOM 삽입 단계
+            초기 렌더링 직전에 컴포넌트에 직접 접근할 수 있다.
+            서버렌더링에서는 지원하지 않는다.
+            (컴포넌트 초기에 세팅되어야할 데이터 패치는 created 단계를 사용하는 것이 낫다.)
+
+            beforemount
+                템플릿이 있는지 확인하고 렌더링하지만 아직 표시되지 않는다.
+                el 옵션이 있는지 확인하고 렌더링한다. (vue가 실행될 HTML의 DOM 요소를 지정 # . id class 지정)
+                템플릿과 렌더 함수들이 컴파일된 후에 첫 렌더링이 일어나기 직전에 실행된다. 
+                하위 구성 요소에서 가져온 데이터를 조작하기에 좋은 시간
+
+            mounted
+                템플릿이 렌더되고, 실제 DOM이 보여진다.
+                컴포넌트, 템플릿, 렌더링 된 돔에 접근가능 
+                여기서 데이터를 조작하면 그려진 view에 영향을 미친다. 
+                *** 자식 > 부모 순으로 실행
+
+        3. updating
+            Diff 및 재 렌더링 단계
+            컴포넌트에서 사용되는 반응형 속성들이 변경되거나 어떤 이유로 재 렌더링이 발생되면 실행된다. 
+            디버깅이나 프로파일링 등을 위해 컴포넌트 재 렌더링 시점을 알고싶을때 사용하면 된다.
+
+            berforeUpdate 
+                구성요소가 업데이트되기 직전에 일어난다. (돔이 재 렌더링되고 패치되기 직전에 실행)
+                변경 전 상태를 디버깅하기에 좋은시간
+
+            updated
+                컴포넌트의 데이터가 변하여 재렌더링이 일어난 후에 실행
+                업데이트 완료된 상태이므로 돔 종속적인 연산을 할 수 있다. 
+                모든 자식 컴포넌트의 재렌더링 상태를 보장하지는 않는다.   
+                변경된 내용을 디버깅하기 좋은시간
+
+        4. Destruction 
+            해체단계
+
+            beforeDestroy
+                마운트 해체 전 구성요소
+                원래 모습과 모든 기능들을 그대로 가지고 있다. 이벤트 리스너를 제거하거나 reative subscription을 제거하고자 한다면 이 훅이 제격이다.
+            
+            destroyed
+                뷰인스턴스 제거된 후 호출된다. 
+                뷰인스턴스의 모든 디렉티브가 바인딩 해제되고 모든 이벤트 리스너가 제거되며 모든 하위 vue 인스턴스도 삭제된다.   
+
+
+
+    *** 라이프사이클 훅에 접두사 "on"을 추가함으로서 컴포넌트의 라이프사이클 훅에 접근할 수 있다. 
+        단, etup은 beforeCreate, created 라이프사이클 훅 사이에 실행되는 시점이므로 명시적으로 정의할 필요가 없다.
+        이 함수는 컴포넌트에 의해 훅이 호출될 때, 실행될 콜백을 받는다.
+        setup() {
+            noMounted(() => {
+                console.log("컴포넌트가 mounted 되었습니다!");
+            })
+        }
 </10>
 
 <13>
@@ -859,6 +960,13 @@
         코드를 통해 명시적으로 호출하는 함수가 아니라, 단지 함수를 등록하기만 하고, 어떤 이벤트가 발생했거나 특정 시점에 도달했을 때 시스템에서 호출하는 함수
 
 </13>
+
+
+<15>
+    ❤ mixins에 사용한 this.data > data 없을 때 동작 어떻게 되는지 테스트 
+        
+    에러는 안난다....
+</15>
 
 <19>
     ❤ TodoListView.scss > import 한거 글로벌 전역 설정 되는지? > 피드백
@@ -872,3 +980,124 @@
         views : router 속 component에 명시된 vue 파일은 views 폴더 아래에 위치
         components: views 폴더 속 vue 파일 내부에서 component로 호출하는 vue 파일들
 </20>
+
+
+
+
+*** 질문했던 내용
+    1. store 언제 사용하는지?
+    2. $emit 으로 이벤트 넘길 때 인자값으로 false를 보냈는데, DOM에서 함수로 받을시 인자도 함께 받아오는거 왜 안되는지?
+    3. 스크립트 내 작성순서 
+       
+        <1>
+            store는 depth가 많을 때 관리용으로 사용한다. 
+            공통으로 불러오는 API 가 있거나
+            여러 컴포넌트에서 하나의 데이터를 불러오고 또 가공하는 경우
+        </1>
+
+        <2>
+            <AddListView v-if="modalStatus" @modal:close="modalControl"></AddListView> 
+            <AddListView v-if="modalStatus" @modal:close="modalControl(boolean)"></AddListView> //error
+
+            methods : {
+                modalControl(boolean) {
+                    this.modalStatus = boolean;
+                },
+            }
+
+            받을 때 그 즉시 실행하는게 아니라, 이벤트를 바인딩 해주는 것이다. 
+            이벤트를 바인딩하면 event 객체가 먼저 호출된다.
+        </2>
+
+        <3>
+            components > props > mixins > data > computed > lifeCycle hook > methods 
+        </3>
+
+*** 민주매니저님께 공유받은 내용
+    1. 컴포넌트 전역 설정
+    2. ref에 '-(대시)' 넣어 이름 설정 
+
+    <1>
+        //main.js에서 전역으로 설정할 컴포넌트를 import 시킨다.
+        import testView from './views/testView.vue';
+
+        //Vue 전역의 컴포넌트로 사용한다고 선언한다. 
+        Vue.component("testView", testView);
+
+        //import 없이 필요한 페이지의 DOM에 컴포넌트를 사용한다. 
+        <testView></testView>
+    </1>
+
+    <2>
+        DOM에서 ref에 '-(대시)' 넣어 선언하면, 스크립트에서 받아쓸 때는 다음과 같은 과정이 필요하다.
+        1) 변수에 받아쓰기 
+            ref="test-Edit"
+            const test = "test-Edit"
+            this.$refs.test 
+        2) 대괄호 안에 쓰기 
+            this.$refs["test-Edit"]
+    
+            this.$refs["test-aaa"].style.background = "red";
+
+        (+) ref 속성은 id와 같은 기능을 하지만 두 요소에 같은 값 부여해도 에러나지 않는다. 단 가장 최신의 것을 찾는다. 
+            <p ref="test">1번</p>
+            <p ref="test">2번</p>
+            <p ref="test">3번</p>
+
+            console.log(this.$refs.test); //<p ref="test">3번</p> 찍힌다.
+    </2>
+
+*** 보충내용
+    1. 케밥 vs 카멜 ::: event 이름, props
+    2. computed vs methods
+        
+ 
+    <1>
+        https://vuejs.org/v2/guide/components-custom-events.html //vue2 event관련 문서
+        https://v3.vuejs.org/guide/component-custom-events.html#custom-events //vue3 evnet 관련 문서
+        
+        어쨌든 결론은, 이벤트 이름에는 항상 kebab-case 사용하는 것이 좋다.
+        html attribute는 대소문자 구분이 없기 때문에 브라우저는 대문자를 소문자로 변경하여 읽는다. 그렇기 때문에 camel Case(대소문자 혼용)로 prop의 이름을 정한 경우에 DOM 템플릿 안에서는 kebab case(하이픈으로-연결된 구조)를 사용하여야 올바르게 동작한다.
+
+        Vue.component('blog-post', {
+            // JavaScript에서의 camelCase
+            props: ['postTitle'],
+            template: '<h3>{{ postTitle }}</h3>'
+        })
+
+        <!-- HTML에서의 kebab-case -->
+        <blog-post post-title="hello!"></blog-post>
+        물론, 문자열 템플릿을 사용하는 경우에는 무관하다.
+    </1>
+    <2>
+        computed 는 종속 대상을 캐싱한다는 점이 차이점. 
+        computed는 종속 대상이 변경 될 때만 함수를 호출한다. 
+        시간이 많이 걸리는 계산을 할 때, computed를 사용하면 더 좋은 효율의 어플리케이션을 만들 수 있다. 
+        캐싱을 하지 않고, 호출 할 때마다 새롭게 계산을 해야 하는 경우에는 methods를 사용해야 한다.
+    </2>
+
+
+*** 메서드
+
+    Object.is() 
+        - 두 매개변수의 값이 같은 값인지 결정한다. 
+        - 반환값: boolean 
+
+            Object.is('foo', 'foo');           // true
+            Object.is(window, window);         // true
+
+            Object.is('foo', 'bar');           // false
+            Object.is([], []);                 // false
+
+            var test = { a: 1 };
+            Object.is(test, test);             // true
+
+            Object.is(null, null);             // true
+            Object.is(undefined, undefined);   // true
+
+            // 특별한 경우
+            Object.is(0, -0);                  // false
+            Object.is(-0, -0);                 // true
+            Object.is(NaN, 0/0);               // true
+        
+    

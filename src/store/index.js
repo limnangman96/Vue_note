@@ -14,7 +14,7 @@ export const store = new Vuex.Store({
         }
     },
     mutations: { 
-        SET_INIT_TODO(state, localData) { 
+        SET_GET_TODO(state, localData) { 
             state.todoData = localData;
         },
         SET_ADD_TODO(state, addedData) {
@@ -28,8 +28,8 @@ export const store = new Vuex.Store({
         },
     },
     actions: { 
-        INIT_TODO({ commit }, localData) {
-            commit("SET_INIT_TODO", localData);
+        GET_TODO({ commit }, localData) {
+            commit("SET_GET_TODO", localData);
         },
         ADD_TODO({ commit }, addedData) {
             commit("SET_ADD_TODO", addedData);
