@@ -36,16 +36,17 @@
 import ListView from './ListView.vue';
 import AddListView from './AddListView.vue';
 import { mapGetters } from 'vuex';
-import { todayMixin } from '../mixins/getTodayMixins';
+import moment from 'moment';
 
 export default {
   components: {
     ListView,
     AddListView,
   },
-  mixins: [todayMixin],
   data() {
     return {
+      year: "",
+      month: "",
       date: "",
       day: "",
       modalStatus: false,
@@ -61,12 +62,17 @@ export default {
     if (localData) {
       this.$store.dispatch("GET_TODO", JSON.parse(localData));
     }
-
+    
     window.addEventListener("beforeunload", this.saveLocalData); // 창닫기, 주소이동, 새로고침 감지
   },
   mounted() {
-    this.date = this.getMoment.format("DD"); //날짜
-    this.day = this.getMoment.format("dddd").toUpperCase(); //요일
+    this.year = moment().format("YYYY");
+    this.month = moment().format("MM");
+    this.date = moment().format("DD"); //날짜
+    this.day = moment().format("dddd").toUpperCase(); //요일
+
+
+    console.log(  )
   },
   beforeRouteLeave(to, from, next) { // 라우트 이동 감지
     this.saveLocalData();

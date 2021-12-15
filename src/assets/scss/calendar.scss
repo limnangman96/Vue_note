@@ -77,30 +77,33 @@
     }
 
     &__date {
+        position: relative;
         color: #575757;
-        cursor: pointer;
         
-        // @TODO 이번달 아닌 달
         &.notThisMonth {
             pointer-events: none;
             cursor: default;
             opacity: .2;
         }
 
-        // @TODO 오늘 표시
         &.today {
             &:before {
                 content: "";
                 position: absolute;
-                top: 50%;
+                top: 10px;
                 left: 50%;
-                width: 80%;
-                height: 80%;
-                border: 2px solid #50e3a4;;
+                width: 6px;
+                height: 6px;
+                background: #50e3a4;
                 border-radius: 50%;
                 box-sizing: border-box;
-                transform: translate(-50%, -50%);
+                transform: translate(-50%, 0);
             }   
+        }
+
+        &__label {
+            display: block;
+            cursor: pointer;
         }
 
         &__input {
