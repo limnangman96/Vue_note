@@ -4,10 +4,8 @@
             <ul>
                 <li v-for="(todoList, index) in gettersList" :key="index" :class="todoList.completed ? 'done' : ''" class="todo__list">
                     <!-- 리스트 내용 -->
-                    <span @click="listEdit(todoList.value, index)" class="todo__list__link">
-                        <p class="todo__list__text">
-                            {{ todoList.value }}
-                        </p>
+                    <span @click="listEdit(todoList.value, index)" class="todo__list__text">
+                        {{ todoList.value }}
                     </span>
 
                     <!-- 리스트 삭제/완료 -->
@@ -24,13 +22,11 @@
 
                     <!-- 리스트 수정 -->
                     <div v-show="editedIdx === index" class="todo__list__edit">
-                        <div class="edit__inner">
-                            <label class="edit__label">
-                                <input type="text" v-model.trim="editedText"  @keyup.enter="editComplete(index)" class="edit__input">
-                            </label>
+                        <label class="edit__label">
+                            <input type="text" v-model.trim="editedText"  @keyup.enter="editComplete(index)" class="edit__input">
+                        </label>
 
-                            <button type="button" @click="editComplete(index)" class="edit__button">수정완료</button>
-                        </div>
+                        <button type="button" @click="editComplete(index)" class="edit__button">수정완료</button>
                     </div>
                 </li>
             </ul>

@@ -1,20 +1,20 @@
 .calendar {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 40px;
-    background: #fff;
-    box-sizing: border-box;
-    box-shadow: 0 0 10px rgb(0 0 0 / 3%);
-    border-radius: 10px;
-    transform: translate(-50%, -50%);
+    &__wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        padding: 40px;
+        background: #fff;
+        box-sizing: border-box;
+        box-shadow: 0 0 10px rgb(0 0 0 / 3%);
+        border-radius: 10px;
+        transform: translate(-50%, -50%);
+    }
 
     &__header {
         display: flex;
         position: relative;
-        margin-bottom: 10px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #c8c8c8;
+        margin-bottom: 30px;
         box-sizing: border-box;
         justify-content: space-between;
         align-items: center;
@@ -28,7 +28,7 @@
                 }
 
                 &__year {
-                    margin-left: 5px;
+                    margin-left: 10px;
                     color: #c8c8c8;
                     font-size: 22px;
                 }
@@ -123,11 +123,126 @@
                         width: 80%;
                         height: 80%;
                         background: #50e3a4;
-                        border-radius: 50%;
+                        border-radius: 8px;
                         transform: translate(-50%, -50%);
                     } 
                 }
             }
+        }
+    }
+
+    &__schedule {
+        position: relative;
+        margin: 30px 0;
+        text-align: center;
+
+        .schedule {
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #575757;
+            text-align: left;
+
+            &__inner {
+
+            }
+
+            &__list {
+                font-size: 15px;
+                line-height: 20px;
+                list-style: inside;
+                word-break: break-all;
+                
+                &:not(:first-child) {
+                    margin-top: 8px;
+                }
+            }
+
+            &__empty {
+                font-size: 15px;
+                line-height: 30px;
+            }
+
+            &__addList {
+                margin-top: 20px;
+
+                &__label {
+                    display: block;
+                    font-size: 0;
+                }
+
+                &__input {
+                    width: 100%;
+                    height: 40px;
+                    padding: 0 10px;
+                    background: #f0efe9;
+                    color: #575757;
+                    border: 0;
+                    font-size: 15px;
+                    font-family: "Shippori Antique", sans-serif;
+                    line-height: 20px;
+                    border-radius: 4px;
+                    box-sizing: border-box;
+                }
+            }
+
+            &__buttonWrap {
+                position: absolute;
+                bottom: -110px;
+                left: 50%;
+                transform: translate(-50%, 0);
+         
+                button {
+                    position: relative;
+                    width: 80px;
+                    height: 80px;
+                    padding: 0;
+                    border-radius: 50%;
+                    border: none;
+                    background: #50e3a4;
+                    box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+                    font-size: 0;
+    
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: 20px;
+                        height: 4px;
+                        background: #40a97c;
+                        border-radius: 5px;
+                        transform: translate(-50%, -50%);
+                    }
+                
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        display: inline-block;
+                        width: 4px;
+                        height: 20px;
+                        background: #40a97c;
+                        border-radius: 5px;
+                        transform: translate(-50%, -50%);
+                    }
+                }
+                
+                &__cancel { //__add가 기준, __cancel이 커스텀
+                    background: #575757 !important;
+
+                    &:before {
+                        background: #fff !important;
+                        transform: translate(-50%, -50%) rotate(45deg) !important;
+                    }
+
+                    &:after {
+                        background: #fff !important;
+                        transform: translate(-50%, -50%) rotate(45deg) !important;
+                    }
+                }
+            }
+
         }
     }
 }

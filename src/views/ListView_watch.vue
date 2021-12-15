@@ -26,7 +26,7 @@
                     <div v-show="editedIdx === index" class="todo__list__edit">
                         <div class="edit__inner">
                             <label class="edit__label">
-                                <input type="text" v-model.trim="editedText"  @keyup.enter="editComplete(index)" class="edit__input">
+                                <input type="text" v-model.trim="editedText" @keyup.enter="editComplete(index)" class="edit__input">
                             </label>
 
                             <button type="button" @click="editComplete(index)" class="edit__button">수정완료</button>
