@@ -72,6 +72,7 @@
         &.done {
             .todo__list__text {
                 color: #ddd;
+                text-decoration: line-through;
                 pointer-events: none;
                 cursor: default;
             }

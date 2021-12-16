@@ -33,7 +33,7 @@
                         <!-- 이번달 -->
                         <td v-for="(item, index) in currDateArr" :key="index" :class="item == date ? 'today' : ''" class="calendar__item calendar__date">
                             <label class="calendar__date__label">
-                                <input type="radio" @change="matchingScheduleList(index)" class="calendar__date__input" name="date">                    
+                                <input type="radio" @change="matchingScheduleList(index)" ref="dateInput" class="calendar__date__input" name="date">                    
                                 <span>{{ item }}</span>
                             </label>
                         </td>
@@ -53,7 +53,8 @@
                     <div class="schedule">
                         <ul v-if="thisDateSchedule && thisDateSchedule.length" class="schedule__inner">
                             <li v-for="(item, index) in thisDateSchedule" :key="index + 's'" class="schedule__list">
-                                {{ item.dataValue }}    
+                                <span class="schedule__list__text">{{ item.dataValue }}</span>
+                                <button type="button" class="schedule__list__delete" @click="scheduleDelete(item)">일정 삭제</button>    
                             </li> 
                         </ul>
 
@@ -70,11 +71,11 @@
                     <!-- 일정 관련 버튼 -->
                     <div class="schedule__buttonWrap">
                         <template v-if="!addScheduleArea">
-                            <button type="button" class="schedule__buttonWrap__add" @click="addScheduleAreaControl(true)">일정추가</button>
+                            <button type="button" class="schedule__buttonWrap__add" @click="controlScheduleAddArea(true)">일정추가</button>
                         </template>
 
                          <template v-else>
-                            <button type="button" class="schedule__buttonWrap__cancel" @click="addScheduleAreaControl(false)">일정추가 취소</button>
+                            <button type="button" class="schedule__buttonWrap__cancel" @click="controlScheduleAddArea(false)">일정추가 취소</button>
                         </template>
                     </div>
                 </div>
@@ -98,7 +99,8 @@ export default {
             currDateArr: [],
             nextDateArr: [], 
             /* 일정 관련 데이터 */
-            checkedDate: null,
+            scheduleArea: false,
+            checkedDate: null, //TODO 날짜 0은 false로 인식하는 문제 해결필요!!
             addScheduleText: "",
             addScheduleArea: false, 
             scheduleListArr: [], 
@@ -119,11 +121,13 @@ export default {
                 relativeDate = moment().add(this.moveMonth, "month").calendar();
             }
 
+            console.log(relativeDate, "relativeDate")
+
             this.month = relativeDate.split("/")[0];
             this.date = relativeDate.split("/")[1];
             this.year = relativeDate.split("/")[2];
-            this.monthText = moment(this.month).format("MMM"); //ISO에서 인식할 수 없다는 오류 @TODO
-            
+            this.monthText = moment(relativeDate, 'MM/DD/YYYY').format("MMM"); 
+
             const currMonthFirstDay = moment([this.year, 0, 1]).month(this.month - 1).format("d"); //이번달 첫 요일 (month는 배열이라 -1 필요)
             const currMonthLastDay = moment([this.year, 0, 31]).month(this.month - 1).format("d"); //이번달 마지막 요일 
             const currMonthLastDate = moment([this.year, 0, 31]).month(this.month - 1).format("DD"); //이번달 마지막 날짜 
@@ -162,33 +166,44 @@ export default {
             this.nextDateArr = nextDateArr;
             this.currDateArr = currDateArr;
         },
-        jumpMonth(bool) {
+        jumpMonth(bool) { //달 이동
             bool ? this.moveMonth++ : this.moveMonth--;
+            this.checkedDate = null; //체크값 비워서 일정 영역 숨기기
+            this.$refs.dateInput.forEach(el => el.checked = false); //체크값 풀어서 css해제
             this.drawDayList();
         },
-        matchingScheduleList(index) {
-            this.checkedDate = index;
+        matchingScheduleList(index) { //날짜와 스케줄리스트 매치 뿌려주기
+            this.checkedDate = Number(index);
             const thisDateKey = `${this.year}-${this.month}-${this.checkedDate + 1}`;
-            const resultData = this.scheduleListArr.filter((item) => item.dataKey == thisDateKey);
+            const resultData = this.scheduleListArr.filter((item) => item.date == thisDateKey);
             this.thisDateSchedule = resultData;
         },
-        addScheduleAreaControl(bool) {
+        controlScheduleAddArea(bool) { //일정 추가영역 show/hide
             this.addScheduleArea = bool;
         },
-        scheduleAdd() {
+        scheduleAdd() { //일정 추가
             if (!this.addScheduleText) {
                 alert("pleas check your answer !");
                 return ;
             }
 
             const scheduleData = {
-                dataKey: `${this.year}-${this.month}-${this.checkedDate + 1}`,
+                date: `${this.year}-${this.month}-${this.checkedDate + 1}`,
                 dataValue: this.addScheduleText,
             }
-            this.scheduleListArr.push(scheduleData);
 
+            this.scheduleListArr.push(scheduleData);
             localStorage.setItem("scheduleList", JSON.stringify(this.scheduleListArr));
-            this.$router.go(); //현재 페이지 새로고침 @TODO
+
+            this.matchingScheduleList(this.checkedDate);
+            this.addScheduleText = "";
+            this.addScheduleArea = false;
+        },
+        scheduleDelete(targetInfo) { //일정 삭제
+            const deleteIndex =  this.scheduleListArr.findIndex((item) => item.date == targetInfo.date && item.dataValue == targetInfo.dataValue); //날짜와 value가 맞아떨어져야 한다.
+            this.scheduleListArr.splice(deleteIndex, 1);
+            localStorage.setItem("scheduleList", JSON.stringify(this.scheduleListArr));
+            this.matchingScheduleList(this.checkedDate);
         },
     },
 }

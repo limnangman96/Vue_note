@@ -147,13 +147,54 @@
             }
 
             &__list {
-                font-size: 15px;
-                line-height: 20px;
-                list-style: inside;
-                word-break: break-all;
-                
+                position: relative;
+                padding: 0 50px 0 10px;
+
+                &:before {
+                    content: "";
+                    position: absolute;
+                    top: 50%;
+                    left: 0;
+                    width: 4px;
+                    height: 4px;
+                    background: #575757;
+                    border-radius: 50%;
+                    transform: translate(0, -50%);
+                }
+
                 &:not(:first-child) {
                     margin-top: 8px;
+                }
+
+                &__text {
+                    font-size: 15px;
+                    line-height: 20px;   
+                    word-break: break-all;
+                }
+
+                &__delete {
+                    position: absolute;
+                    top: 50%;
+                    right: 0;
+                    width: 25px;
+                    height: 20px;
+                    background: #f0efe9;
+                    border-radius: 3px;
+                    border: none;
+                    font-size: 0;
+                    transform: translate(0, -50%);
+
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: 10px;
+                        height: 2px;
+                        background: #575757;   
+                        border-radius: 10px;
+                        transform: translate(-50%, -50%);
+                    }
                 }
             }
 
