@@ -3,58 +3,60 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        padding: 50px;
+        padding: rem(35);
         background: #fff;
+        border-radius: rem(10);
+        box-shadow: 0 0 rem(10) rgb(0 0 0 / 3%);
         box-sizing: border-box;
-        box-shadow: 0 0 10px rgb(0 0 0 / 3%);
-        border-radius: 10px;
         transform: translate(-50%, -50%);
     }
 
     &__place {
         font-size: 0;
+
         &__open {
-            width: 30px;
-            height: 30px;
+            width: rem(25);
+            height: rem(25);
             background: url("~@/assets/images/icon-placeholder-gray.png")no-repeat center center/ 100% auto;
-            font-size: 0;
             border: none;
+            font-size: 0;
             vertical-align: middle;
         }
 
         &__info {
             display: inline-block;
-            margin-left: 10px;
+            margin-left: rem(5);
             color: #575757;
-            font-size: 15px;
+            font-size: rem(16);
             vertical-align: middle;
         }
     }
 
     &__search {
         position: absolute;
-        top: 30px;
-        left: 30px;
-        width: calc(100% - 60px);
-        padding: 20px;
+        top: rem(20);
+        left: rem(20);
+        z-index: 2;
+        width: calc(100% - #{rem(40)});
+        padding: rem(15);
         background: #f7f6f1;
-        border-radius: 35px;
+        border-radius: rem(35);
         box-sizing: border-box;
 
         &__area {
-            width: calc(100% - 65px);
+            width: calc(100% - #{rem(65)});
             display: inline-block;
         }
 
         &__input {
             width: 100%;
-            height: 30px;
+            height: rem(30);
             padding: 0;
             background: #f7f6f1;
             border: none;
             color: #575757;
             font-family: "Shippori Antique", sans-serif;
-            font-size: 15px;
+            font-size: rem(15);
             box-sizing: border-box;
             vertical-align: middle;
         }
@@ -62,11 +64,11 @@
         &__buttonWrap {
            display: inline-block;
            vertical-align: middle;
-           margin-left: 10px;
+           margin-left: rem(10);
 
             button {
-                width: 25px;
-                height: 25px;
+                width: rem(25);
+                height: rem(25);
                 border-radius: 50%;
                 border: none;
                 font-size: 0;
@@ -75,20 +77,20 @@
 
             .buttonWrap {
                 &__enter {
-                    background: #50e3a4 url('~@/assets/images/icon-checked.png') no-repeat center/ 13px auto; 
+                    background: #50e3a4 url('~@/assets/images/icon-checked.png') no-repeat center/ rem(13) auto; 
                 }
 
                 &__cancel {
                     position: relative;
-                    margin-left: 5px;
+                    margin-left: rem(5);
                     background: #fff;
 
                     &:before {
                         content: "";
-                        width: 15px;
-                        height: 3px;
+                        width: rem(15);
+                        height: rem(3);
                         background: #ddd;
-                        border-radius: 5px;
+                        border-radius: rem(5);
                         display: block;
                         position: absolute;
                         top: 50%;
@@ -98,10 +100,10 @@
         
                     &:after {
                         content: "";
-                        width: 3px;
-                        height: 15px;
+                        width: rem(3);
+                        height: rem(15);
                         background: #ddd;
-                        border-radius: 5px;
+                        border-radius: rem(5);
                         display: block;
                         position: absolute;
                         top: 50%;
@@ -120,35 +122,40 @@
     &__thumb {
         overflow: hidden;
         position: relative;
-        width: 220px;
-        height: 220px;
-        margin: 50px;
+        width: rem(240);
+        height: rem(240);
+        padding: rem(40);
+        box-sizing: border-box;
     }
 
     &__image {
         position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        width: 100%;
+        top: 50%;
+        left: 50%;
+        width: calc(100% - #{rem(80)});
         height: auto;
-        box-sizing: border-box;
+        transform: translate(-50%, -50%);
     }
 
     &__text {
         display: block;
         color: #575757;
-        font-size: 18px;
+        font-size: rem(16);
         line-height: 1;
     }
 
     &__temperature {
         display: block;
-        margin-top: 20px;
+        margin-top: rem(20);
         color: #50e3a4;
-        font-size: 45px;
+        font-size: rem(40);
         font-weight: bold;
         line-height: 1;
+
+        &:after {
+            content: "℃";
+            font-size: rem(15);
+            vertical-align: top;
+        }
     }
 }
