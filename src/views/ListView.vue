@@ -33,7 +33,7 @@
         </template>
 
         <template v-else>
-            <p >
+            <p class="todo__empty">
                 등록된 todo list가 없습니다.
             </p>
         </template>

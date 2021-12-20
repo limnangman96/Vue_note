@@ -3,14 +3,14 @@
         <div class="calendar__wrapper">
             <!-- 달력 헤더 -->
             <header class="calendar__header">
-                <button type="button" @click="jumpMonth(false)" class="calendar__header__button prev">이전</button>
+                <button type="button" @click="movePrevMonth()" class="calendar__header__button prev">이전</button>
 
                 <div class="calendar__header__title">
                     <span class="title__month">{{ monthText }}</span>
                     <span class="title__year">{{ year }}</span>
                 </div>
 
-                <button type="button" @click="jumpMonth(true)" class="calendar__header__button next">다음</button>
+                <button type="button" @click="moveNextMonth()" class="calendar__header__button next">다음</button>
             </header>
 
             <!-- 달력 테이블 -->
@@ -30,10 +30,10 @@
                             <span>{{ item }}</span>
                         </td>
 
-                        <!-- 이번달 (index + 1 배열이라 0부터 시작) -->
-                        <td v-for="(item, index) in currDateArr" :key="index" :class="item == date ? 'today' : ''" class="calendar__item calendar__date">
+                        <!-- 이번달 -->
+                        <td v-for="(item, index) in currDateArr" :key="index" :class="markToday(item)" class="calendar__item calendar__date">
                             <label class="calendar__date__label">
-                                <input type="radio" @change="matchingScheduleList(index + 1)" ref="dateInput" class="calendar__date__input" name="date">                    
+                                <input type="radio" v-model="checkedDateString" ref="dateInput" :value="`${year}-${month}-${item}`" class="calendar__date__input" name="date">                    
                                 <span>{{ item }}</span>
                             </label>
                         </td>
@@ -47,14 +47,14 @@
             </table>
 
             <!-- 스케줄 영역 -->
-            <template v-if="checkedDate"> 
+            <template v-if="checkedDateString"> 
                 <div class="calendar__schedule">
                     <!-- 스케줄 리스트 -->
                     <div class="schedule">
-                        <ul v-if="thisDateSchedule && thisDateSchedule.length" class="schedule__inner">
-                            <li v-for="(item, index) in thisDateSchedule" :key="index + 's'" class="schedule__list">
+                        <ul v-if="schedule.length" class="schedule__inner">
+                            <li v-for="(item, index) in schedule" :key="index + 's'" class="schedule__list">
                                 <span class="schedule__list__text">{{ item.dataValue }}</span>
-                                <button type="button" class="schedule__list__delete" @click="scheduleDelete(item)">스케줄 삭제</button>    
+                                <button type="button" class="schedule__list__delete" @click="scheduleDelete(item.id)">스케줄 삭제</button>    
                             </li> 
                         </ul>
 
@@ -70,12 +70,12 @@
 
                     <!-- 스케줄 관련 버튼 -->
                     <div class="schedule__buttonWrap">
-                        <template v-if="!addScheduleArea">
-                            <button type="button" class="schedule__buttonWrap__add" @click="controlScheduleAddArea(true)">스케줄추가</button>
+                        <template v-if="addScheduleArea">
+                            <button type="button" class="schedule__buttonWrap__cancel" @click="showScheduleAdd(false)">스케줄추가 취소</button>
                         </template>
 
                          <template v-else>
-                            <button type="button" class="schedule__buttonWrap__cancel" @click="controlScheduleAddArea(false)">스케줄추가 취소</button>
+                            <button type="button" class="schedule__buttonWrap__add" @click="showScheduleAdd(true)">스케줄추가</button>
                         </template>
                     </div>
                 </div>
@@ -92,8 +92,9 @@ export default {
             year: null,
             month: null,
             date: null,
-            monthText: "",
+            relativeDate: '',
             dayList: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
+            todayDate: moment().format("M/D/YYYY"),
             lastDateArr: [],
             currDateArr: [],
             nextDateArr: [], 
@@ -102,9 +103,27 @@ export default {
             scheduleListArr: [], //스케줄 있는날
             thisDateSchedule: [], //해당일 스케줄
             scheduleArea: false, 
-            checkedDate: null, //선택날짜
+            addScheduleArea: false,
             addScheduleText: "",
-            addScheduleArea: false, 
+            checkedDateString: "", 
+        }
+    },
+    computed: {
+        schedule() {
+            if(!this.checkedDateString) return [];
+
+            return this.scheduleListArr.filter((item) => item.date == this.checkedDateString);
+        },
+        monthText() {
+            if(!this.relativeDate) return '';
+
+            return moment(this.relativeDate, 'MM/DD/YYYY').format("MMM");
+        },
+    },
+    watch: {
+        moveMonth() {
+            this.checkedDateString = ""; 
+            this.drawDayList(); 
         }
     },
     mounted() {
@@ -112,21 +131,18 @@ export default {
         this.drawDayList();
     },
     methods: {
-        getCalendarDate() { //날짜 구할 때 필요한 데이터 계산
-            let relativeDate = "";
-            
+        getCalendarDate() { 
             if (this.moveMonth === 0) {
-                relativeDate = moment().format("M/D/YYYY");
+                this.relativeDate = moment().format("M/D/YYYY");
             } else {
-                relativeDate = moment().add(this.moveMonth, "month").calendar();
+                this.relativeDate = moment().add(this.moveMonth, "month").calendar();
             }
 
-            console.log(relativeDate, "relativeDate")
+            const relativeDatePice = this.relativeDate.split("/");
 
-            this.month = relativeDate.split("/")[0];
-            this.date = relativeDate.split("/")[1];
-            this.year = relativeDate.split("/")[2];
-            this.monthText = moment(relativeDate, 'MM/DD/YYYY').format("MMM"); 
+            this.month = relativeDatePice[0];
+            this.date = relativeDatePice[1];
+            this.year = relativeDatePice[2];
 
             const currMonthFirstDay = moment([this.year, 0, 1]).month(this.month - 1).format("d"); //이번달 첫 요일 (month는 배열이라 -1 필요)
             const currMonthLastDay = moment([this.year, 0, 31]).month(this.month - 1).format("d"); //이번달 마지막 요일 
@@ -140,70 +156,65 @@ export default {
                 lastMonthLastDate,
             }
         },
-        drawDayList() { //날짜 뽑아내기
+        drawDayList() {
             let { currMonthFirstDay, currMonthLastDay, currMonthLastDate, lastMonthLastDate } = this.getCalendarDate();
-            const lastDateArr = []; 
-            const nextDateArr = [];
-            const currDateArr = [];
+            this.lastDateArr = []; 
+            this.nextDateArr = [];
+            this.currDateArr = [];
 
             // 지난달 날짜 구하기 > 첫 요일 index가 0이 될 때까지 지난달 마지막 날짜에서 -1 하여 넣어주기
             for (let i = currMonthFirstDay - 1; i >= 0; i--) {
-                lastDateArr.push(Number(lastMonthLastDate));
+                this.lastDateArr.push(Number(lastMonthLastDate));
                 lastMonthLastDate -= 1;
             }
+            this.lastDateArr.sort(function(a,b) {return a-b});
 
             // 다음달 날짜 구하기 > 마지막 요일이 6부터 작거나 같을 때 1부터 +1 하여 넣어주기 
             for (let i = 1; i <= (6 - currMonthLastDay); i++) {
-                nextDateArr.push(i);
+                this.nextDateArr.push(i);
             }
 
             // 이번달 날짜 구하기 > 1부터 마지막 날짜까지 +1 하여 넣어주기
             for (let i = 1; i <= currMonthLastDate; i++) {
-                currDateArr.push(i);
+                this.currDateArr.push(i);
             }
-
-            this.lastDateArr = lastDateArr.sort(function(a,b) {return a-b});
-            this.nextDateArr = nextDateArr;
-            this.currDateArr = currDateArr;
         },
-        jumpMonth(bool) { //달 이동
-            bool ? this.moveMonth++ : this.moveMonth--;
-            this.checkedDate = null; //체크값 비워서 스케줄 영역 숨기기
-            this.$refs.dateInput.forEach(el => el.checked = false); //체크값 풀어서 css해제 TODO
-            this.drawDayList(); //날짜 다시 그리기
+        markToday(item) {
+            return `${this.month}/${item}/${this.year}` == this.todayDate ? 'today' : '';
         },
-        matchingScheduleList(index) { //날짜와 스케줄리스트 매칭 > 뿌려주기
-            this.checkedDate = Number(index);
-            const thisDateKey = `${this.year}-${this.month}-${this.checkedDate}`;
-            const resultData = this.scheduleListArr.filter((item) => item.date == thisDateKey);
-            this.thisDateSchedule = resultData;
+        movePrevMonth() {
+            this.moveMonth--;
         },
-        controlScheduleAddArea(bool) { //스케줄 추가영역 show/hide
+        moveNextMonth() {
+            this.moveMonth++;
+        },
+        showScheduleAdd(bool) {
             this.addScheduleArea = bool;
         },
-        scheduleAdd() { //스케줄 추가
+        scheduleAdd() { 
+            const inIndex = localStorage.getItem("scheduleList") ? JSON.parse(localStorage.getItem("scheduleList")).length : 0;
+
             if (!this.addScheduleText) {
                 alert("pleas check your answer !");
                 return ;
             }
 
             const scheduleData = {
-                date: `${this.year}-${this.month}-${this.checkedDate}`,
+                id: inIndex,
+                date: this.checkedDateString,
                 dataValue: this.addScheduleText,
             }
 
             this.scheduleListArr.push(scheduleData);
             localStorage.setItem("scheduleList", JSON.stringify(this.scheduleListArr));
 
-            this.matchingScheduleList(this.checkedDate);
             this.addScheduleText = "";
             this.addScheduleArea = false;
         },
-        scheduleDelete(listInfo) { //스케줄 삭제
-            const deleteIndex =  this.scheduleListArr.findIndex((item) => item.date == listInfo.date && item.dataValue == listInfo.dataValue); //날짜와 value까지 맞아떨어지면
+        scheduleDelete(itemId) { //스케줄 삭제
+            const deleteIndex =  this.scheduleListArr.findIndex((item) => item.itemId == itemId); 
             this.scheduleListArr.splice(deleteIndex, 1);
             localStorage.setItem("scheduleList", JSON.stringify(this.scheduleListArr));
-            this.matchingScheduleList(this.checkedDate);
         },
     },
 }

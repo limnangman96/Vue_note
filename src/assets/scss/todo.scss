@@ -186,6 +186,12 @@
         }
     }
 
+    &__empty {
+        padding-bottom: 15px;
+        color: #575757;
+        font-size: 16px;
+    }
+
     &__add {
       position: absolute;
       bottom: -40px;

@@ -3,7 +3,7 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        padding: 40px;
+        padding: 50px;
         background: #fff;
         box-sizing: border-box;
         box-shadow: 0 0 10px rgb(0 0 0 / 3%);
@@ -23,14 +23,14 @@
             .title {
                 &__month {
                     color: #575757;
-                    font-size: 22px;
+                    font-size: 25px;
                     font-weight: bold;
                 }
 
                 &__year {
                     margin-left: 10px;
                     color: #c8c8c8;
-                    font-size: 22px;
+                    font-size: 25px;
                 }
             }
         }
@@ -54,16 +54,14 @@
     }
 
     &__inner {
-        width: 350px;
+        width: 420px;
         border-spacing: 0;
     }
 
     &__item {
         display: inline-block;
-        width: 50px;
-        height: 50px;
-        color: #b9b9b9;
-        font-weight: normal;
+        width: 60px;
+        height: 60px;
         text-align: center;
         cursor: default;
         box-sizing: border-box;
@@ -71,14 +69,19 @@
         span {
             display: inline-block;
             width: 100%;
+            color: #50e3a4;
             font-size: 18px;
-            line-height: 50px;
+            font-weight: normal;
+            line-height: 60px;
         }
     }
 
     &__date {
         position: relative;
-        color: #575757;
+
+        span {
+            color: #575757;
+        }
         
         &.notThisMonth {
             pointer-events: none;
@@ -92,8 +95,8 @@
                 position: absolute;
                 top: 10px;
                 left: 50%;
-                width: 6px;
-                height: 6px;
+                width: 8px;
+                height: 8px;
                 background: #50e3a4;
                 border-radius: 50%;
                 box-sizing: border-box;
@@ -137,7 +140,7 @@
         text-align: center;
 
         .schedule {
-            padding-top: 20px;
+            padding-top: 30px;
             border-top: 1px solid #ddd;
             color: #575757;
             text-align: left;
@@ -163,11 +166,11 @@
                 }
 
                 &:not(:first-child) {
-                    margin-top: 8px;
+                    margin-top: 15px;
                 }
 
                 &__text {
-                    font-size: 15px;
+                    font-size: 16px;
                     line-height: 20px;   
                     word-break: break-all;
                 }
@@ -176,8 +179,8 @@
                     position: absolute;
                     top: 50%;
                     right: 0;
-                    width: 25px;
-                    height: 20px;
+                    width: 35px;
+                    height: 22px;
                     background: #f0efe9;
                     border-radius: 3px;
                     border: none;
@@ -199,7 +202,7 @@
             }
 
             &__empty {
-                font-size: 15px;
+                font-size: 16px;
                 line-height: 30px;
             }
 
@@ -218,7 +221,7 @@
                     background: #f0efe9;
                     color: #575757;
                     border: 0;
-                    font-size: 15px;
+                    font-size: 16px;
                     font-family: "Shippori Antique", sans-serif;
                     line-height: 20px;
                     border-radius: 4px;
@@ -228,7 +231,7 @@
 
             &__buttonWrap {
                 position: absolute;
-                bottom: -110px;
+                bottom: -120px;
                 left: 50%;
                 transform: translate(-50%, 0);
          
