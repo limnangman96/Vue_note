@@ -2,6 +2,10 @@
     <div>
         타이머
         <testView></testView>
+        <p class="timer__test">scss 테스트 중입니다.</p>
+        <div class="timer__box">
+          테스트박스 
+        </div>
     </div>
 </template>
 <script>

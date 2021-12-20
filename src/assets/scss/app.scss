@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Shippori+Antique&display=swap'); //폰트
+@import "../../../node_modules/sass-rem/rem"; //rem
+@import "@/assets/scss/_variables.scss"; //변수선언
 @import "@/assets/scss/reset.scss"; //reset
-@import "@/assets/scss/_variables.scss"; //컬러 변수
 @import "@/assets/scss/todo.scss"; //todoListView
 @import "@/assets/scss/calendar.scss"; //calendarView
 @import "@/assets/scss/weather.scss"; //weatherView
+@import "@/assets/scss/timer.scss"; //weatherView
+
+html,body {
+    -webkit-text-size-adjust: none; 
+    // 아이폰의 경우 뷰포트가 변경되면 자동으로 폰트크기 조절하는데 이를 방지
+}

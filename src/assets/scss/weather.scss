@@ -13,7 +13,6 @@
 
     &__place {
         font-size: 0;
-
         &__open {
             width: 30px;
             height: 30px;
@@ -42,8 +41,8 @@
         border-radius: 35px;
         box-sizing: border-box;
 
-        &__label {
-            width: calc(100% - 35px);
+        &__area {
+            width: calc(100% - 65px);
             display: inline-block;
         }
 
@@ -60,15 +59,57 @@
             vertical-align: middle;
         }
 
-        &__button {
-            width: 25px;
-            height: 25px;
-            margin-left: 10px;
-            background: #50e3a4;
-            border-radius: 50%;
-            border: none;
-            font-size: 0;
-            vertical-align: middle;
+        &__buttonWrap {
+           display: inline-block;
+           vertical-align: middle;
+           margin-left: 10px;
+
+            button {
+                width: 25px;
+                height: 25px;
+                border-radius: 50%;
+                border: none;
+                font-size: 0;
+                vertical-align: middle;
+            }
+
+            .buttonWrap {
+                &__enter {
+                    background: #50e3a4 url('~@/assets/images/icon-checked.png') no-repeat center/ 13px auto; 
+                }
+
+                &__cancel {
+                    position: relative;
+                    margin-left: 5px;
+                    background: #fff;
+
+                    &:before {
+                        content: "";
+                        width: 15px;
+                        height: 3px;
+                        background: #ddd;
+                        border-radius: 5px;
+                        display: block;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) rotate(45deg);
+                    }
+        
+                    &:after {
+                        content: "";
+                        width: 3px;
+                        height: 15px;
+                        background: #ddd;
+                        border-radius: 5px;
+                        display: block;
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%) rotate(45deg);
+                    }
+                }
+            }
         }
     }
 

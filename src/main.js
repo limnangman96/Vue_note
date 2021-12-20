@@ -13,18 +13,51 @@ new Vue({
   store,
 }).$mount('#app')
 
+/* rem 적용 */
+const htmlDoc = document.documentElement;
+htmlDoc.style.fontSize =  parseInt(htmlDoc.offsetWidth / 360 * 100) + '%';
 
-// Vue API (2) directive 사용자 정의 디렉티브 > 전역
-// Vue.directive("focus", {
-//   inserted: function(el) {
-//     el.focus();
-//   }    
-// })
+const metaTag = document.createElement('meta');
+metaTag.name = "viewport";
+metaTag.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no";
+document.getElementsByTagName('head')[0].appendChild(metaTag);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
  /**
    * 
-   * Vue API (2) 
+   *  //Vue API (2) directive 사용자 정의 디렉티브 > 전역
+   * 
+   *  Vue.directive("focus", {
+   *    inserted: function(el) {
+   *      el.focus();
+   *    }
+   *  })
+   * 
    * 
    * 디렉티브 정의 훅
    *    bind: 디렉티브가 처음 엘리먼트에 바인딩될 때 한번만 호출 (일회성 설정 가능)
@@ -48,7 +81,5 @@ new Vue({
    * 
    *    vnode: Vue 컴파일러가 만든 버추얼 노드.  >>> filter, component, use(plugin), mixin(mixin), observable, version 
    *    oldNode: 이전의 버추얼 노드. update와 componentUpdated에서만 사용할 수 있다.
-   * 
-   * 
    * 
    */     
