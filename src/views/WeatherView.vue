@@ -3,7 +3,7 @@
         <div class="weather__wrapper">
             <div class="weather__place">
                 <button type="button" @click="searchAreaOpen()" class="weather__place__open">검색영역 열기</button>
-                <span class="weather__place__info">{{ addressName ? addressName : "현재주소" }}</span> 
+                <span class="weather__place__info">{{ addressName ? cutAddressName : "현재주소" }}</span> 
             </div>
 
             <!-- 날씨 검색 영역 -->
@@ -33,7 +33,6 @@
         </div>
     </div>
 </template>
-<!-- 카카오맵 api -->
 <script>
 import axios from 'axios';
 export default {
@@ -47,6 +46,11 @@ export default {
             searchArea: false,
             searchInput: "",
             addressName: "",
+        }
+    },
+    computed: {
+        cutAddressName() {
+            return this.addressName.replace(/[\d|-]/gm, "");
         }
     },
     watch: {
