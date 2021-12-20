@@ -4,6 +4,10 @@ body {
     font-family: 'Shippori Antique', sans-serif;
 }
 
+figure {
+    margin: 0;
+}
+
 button {
     cursor: pointer;
 }
@@ -16,4 +20,8 @@ ul, li, p {
 
 a {
     text-decoration: none;
+}
+
+em {
+    font-style: normal;
 }
