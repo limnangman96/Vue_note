@@ -33,7 +33,7 @@
                         <!-- 이번달 -->
                         <td v-for="(item, index) in currDateArr" :key="index" :class="markToday(item)" class="calendar__item calendar__date">
                             <label class="calendar__date__label">
-                                <input type="radio" v-model="checkedDateString" ref="dateInput" :value="`${year}-${month}-${item}`" class="calendar__date__input" name="date">                    
+                                <input type="radio" v-model="checkedDateString" ref="dateInput" :value="`${month}/${item}/${year}`" class="calendar__date__input" name="date">                    
                                 <span>{{ item }}</span>
                             </label>
                         </td>
@@ -92,7 +92,7 @@ export default {
             year: null,
             month: null,
             date: null,
-            relativeDate: '',
+            relativeDate: '', //날짜 뿌려주기 위한 기준날짜
             dayList: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"],
             todayDate: moment().format("M/D/YYYY"),
             lastDateArr: [],
@@ -101,7 +101,6 @@ export default {
             moveMonth: 0,
             /* 스케줄 관련 데이터 */
             scheduleListArr: [], //스케줄 있는날
-            thisDateSchedule: [], //해당일 스케줄
             scheduleArea: false, 
             addScheduleArea: false,
             addScheduleText: "",
@@ -192,7 +191,7 @@ export default {
             this.addScheduleArea = bool;
         },
         scheduleAdd() { 
-            const inIndex = localStorage.getItem("scheduleList") ? JSON.parse(localStorage.getItem("scheduleList")).length : 0;
+            const idIndex = localStorage.getItem("scheduleList") ? JSON.parse(localStorage.getItem("scheduleList")).length : 0;
 
             if (!this.addScheduleText) {
                 alert("pleas check your answer !");
@@ -200,7 +199,7 @@ export default {
             }
 
             const scheduleData = {
-                id: inIndex,
+                id: idIndex,
                 date: this.checkedDateString,
                 dataValue: this.addScheduleText,
             }
@@ -211,7 +210,7 @@ export default {
             this.addScheduleText = "";
             this.addScheduleArea = false;
         },
-        scheduleDelete(itemId) { //스케줄 삭제
+        scheduleDelete(itemId) { 
             const deleteIndex =  this.scheduleListArr.findIndex((item) => item.itemId == itemId); 
             this.scheduleListArr.splice(deleteIndex, 1);
             localStorage.setItem("scheduleList", JSON.stringify(this.scheduleListArr));
