@@ -10,7 +10,7 @@
             <template v-if="searchArea">
                 <div class="weather__search">
                     <label class="weather__search__area">
-                        <input type="text" v-model.trim="searchInput" @keyup.enter="searchPlace()" class="weather__search__input" placeholder="주소를 검색해주세요 (ex. 방배동)">
+                        <input type="text" v-model.trim="searchInput" @keyup.enter="searchPlace()" class="weather__search__input" placeholder="주소 검색란 (ex. 방배동)">
                     </label>
 
                     <div class="weather__search__buttonWrap">

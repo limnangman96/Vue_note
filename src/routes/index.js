@@ -4,6 +4,7 @@ import TodoListView from '../views/TodoListView';
 import CalendarView from '../views/CalendarView';
 import TimerView from '../views/TimerView';
 import WeatherView from '../views/WeatherView';
+import { bus } from '../util/bus.js';
 
 Vue.use(VueRouter);
 
@@ -38,7 +39,11 @@ export const router = new VueRouter({
     ]
 });
 
-// 네이게이션 가드 > 전역가드 테스트 
+router.afterEach(() => {
+    bus.$emit("menu:close");
+});
+
+// (테스트)
 router.beforeEach(function(to, from, next) {
     if(to.matched.some(function(routerInfo) {
         return routerInfo.meta.authRequired;

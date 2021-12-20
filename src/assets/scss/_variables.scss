@@ -1,13 +1,2 @@
 $black: #575757;
-
 $rem-baseline: 16; // 브라우저의 기본 폰트 사이즈
-
-@function rem($pixels, $base: $rem-baseline) {
-  @return #{$pixels/$base}rem;
-}
-
-/* 
-  rem 계산 함수 ::: 위 출처 내용을 사용했지만 아래것도 참고해보기 
-  https://skout90.github.io/2019/10/15/CSS/SCSS-%EC%8B%A4%EC%82%AC%EC%9A%A9%ED%8C%81-%EB%B0%98%EC%9D%91%ED%98%95%EC%B2%98%EB%A6%AC/
-  https://yamoo9.gitbook.io/scss-mixins/utilities/units/rem
-*/
