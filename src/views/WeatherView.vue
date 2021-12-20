@@ -10,10 +10,10 @@
             <template v-if="searchArea">
                 <div class="weather__search">
                     <label class="weather__search__label">
-                        <input type="text" v-model.trim="searchInput" @keyup.enter="searchWeather()" class="weather__search__input" placeholder="서초구">
+                        <input type="text" v-model.trim="searchInput" @keyup.enter="searchPlace()" class="weather__search__input" placeholder="'시/동/읍/면/리'를 검색하여 주세요.">
                     </label>
 
-                    <button type="button" @click="searchWeather()" class="weather__search__button">검색하기</button>
+                    <button type="button" @click="searchPlace()" class="weather__search__button">검색하기</button>
                 </div>
             </template>
 
@@ -38,6 +38,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            weatherApiKey: "fd7c41f2f4b0f197d5b5618bea235fb8",
             lon: "", //경도
             lat: "", //위도
             weather: "",
@@ -49,11 +50,10 @@ export default {
         }
     },
     created() {
-        this.getLocation();
         if (!(window.kakao && window.kakao.maps)) {
             const script = document.createElement('script');
-            script.onload = () => kakao.maps.load();
-            script.src ='//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d9fafc8c8b97f0bccf627ef7afb9cb8d&libraries=services';
+            script.onload = () => kakao.maps.load(this.getLocation);
+            script.src =`//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d9fafc8c8b97f0bccf627ef7afb9cb8d&libraries=services`;
             document.head.appendChild(script);
         }
     },
@@ -63,13 +63,12 @@ export default {
                 navigator.geolocation.getCurrentPosition((position) => {
                     this.lon = position.coords.longitude.toFixed(2);
                     this.lat = position.coords.latitude.toFixed(2);
-                    this.getWeatherInfo();
+                    this.getCoordsFromAddress();
                 })
             }
         },
         linkToApiWeather() { //날씨Api 연동
-            const APIKey =  "fd7c41f2f4b0f197d5b5618bea235fb8";
-            return axios(`https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${APIKey}&units=metric`); //&units=metric 켈빈 > 섭씨
+            return axios(`https://api.openweathermap.org/data/2.5/weather?lat=${this.lat}&lon=${this.lon}&appid=${this.weatherApiKey}&units=metric`); //&units=metric 켈빈 > 섭씨
         },
         async getWeatherInfo() { //날씨Api 연동 후 정보 가져오기
             try {
@@ -80,10 +79,35 @@ export default {
                 console.error(error);
             }
         },
+        afterFetchedWeather(data) {  //날씨Api 연동 후 실행하는 함수
+            this.temperature = data.data.main.temp;
+            this.weather = data.data.weather[0].main;
+            this.weatherIcon = data.data.weather[0].icon;
+        },
         searchAreaOpen() {
             this.searchArea = true;
         },
-        getCoordinates (data, status) {
+        getCoordsFromAddress () {
+            const geocoder = new kakao.maps.services.Geocoder();
+            geocoder.coord2Address(this.lon, this.lat, this.currentAddress);
+        },
+        currentAddress(result, status) {
+            if (status === kakao.maps.services.Status.OK) {
+                this.addressName = result[0].address.address_name;
+                this.getWeatherInfo(); 
+            } 
+        },
+        searchPlace() { 
+            if (!this.searchInput.length) {
+                alert("입력한 값이 없습니다.");
+                return ;
+            }
+            if (!window?.kakao?.maps) return;
+
+            let test = new kakao.maps.services.Places(); 
+            test.keywordSearch(this.searchInput, this.getAddressFromCoords);
+        },
+        getAddressFromCoords (data, status) { //주소를 좌표로 바꾸어 검색하기
             if (status === kakao.maps.services.Status.OK) {
                 this.lon = Math.round(data[0].x);
                 this.lat = Math.round(data[0].y);
@@ -93,23 +117,8 @@ export default {
                 this.searchArea = false;
 
             } else {
-                alert("입력한 주소를 확인해주세요!");
+                alert("검색결과가 없습니다. 입력한 주소를 확인해주세요!");
             }
-        },
-        searchWeather() {
-            if (!this.searchInput.length) {
-                alert("Please check your answer");
-                return ;
-            }
-            if (!window?.kakao?.maps) return;
-
-            let test = new kakao.maps.services.Places(); 
-            test.keywordSearch(this.searchInput, this.getCoordinates);
-        },
-        afterFetchedWeather(response) {  //날씨Api 연동 후 실행하는 함수
-            this.temperature = response.data.main.temp;
-            this.weather = response.data.weather[0].main;
-            this.weatherIcon = response.data.weather[0].icon;
         },
     }
 }
@@ -119,7 +128,6 @@ export default {
 
 
 /**
-
     초기 진입 >
         현재 위치구해온다 
         > 날씨 api 구하는 함수 태운다
