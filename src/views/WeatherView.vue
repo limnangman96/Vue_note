@@ -59,16 +59,26 @@ export default {
         }
     },
     created() {
+        // this.getLocationMobile();
+        // this.isMobile();
         if (!(window.kakao && window.kakao.maps)) {
             const script = document.createElement('script');
-            script.onload = () => kakao.maps.load(this.getLocation);
+            script.onload = () => kakao.maps.load(this.getLocationPc);
             script.src =`//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=d9fafc8c8b97f0bccf627ef7afb9cb8d&libraries=services`;
             document.head.appendChild(script);
         } else {
-            this.getLocation();
+            this.getLocationPc();
         }
     },
     methods: {
+        isMobile() {
+            const userAgent = navigator.userAgent;
+            if(userAgent.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || userAgent.match(/LG|SAMSUNG|Samsung/) != null) {
+                return true; //mobile
+            } else {
+                return false; //pc
+            }
+        },
         afterFetchedWeather(data) {  //날씨Api 연동 후 실행하는 함수
             this.temperature = data.data.main.temp;
             this.weather = data.data.weather[0].main;
@@ -91,19 +101,32 @@ export default {
                 this.addressName = result[0].address.address_name;
             }
         },
-        getLocation() { //현재 로컬의 경도와 위도 구하기
+        getLocationPc() { //PC 현재 로컬의 경도와 위도 구하기
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition((position) => {
                     this.lon = position.coords.longitude.toFixed(2);
                     this.lat = position.coords.latitude.toFixed(2);
 
+                    alert(position.coords.longitude.toFixed(2) + "lon   " + position.coords.latitude.toFixed(2) + "lat   ");
+
                     if (!window?.kakao?.maps) return;
                     
                     const geocoder = new kakao.maps.services.Geocoder();
                     geocoder.coord2Address(this.lon, this.lat, this.getAddressFromCoords);
-                })
+                });
             }
         },
+        // getLocationMobile() { //MOBILE 현재 로컬의 경도와 위도 구하기
+        //     if ( navigator.geolocation ) {
+        //         navigator.geolocation.getCurrentPosition((position) => {
+        //         console.log(position.coords.latitude);
+        //         console.log(position.coords.longitude);
+        //     });
+
+        //     } else {
+        //         alert("geolocation not supported");
+        //     }
+        // },
         searchAreaOpen() { //검색영역
             this.searchInput = "";
             this.searchArea = true;
