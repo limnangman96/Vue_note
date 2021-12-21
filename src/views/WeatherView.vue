@@ -59,8 +59,6 @@ export default {
         }
     },
     created() {
-        // this.getLocationMobile();
-        // this.isMobile();
         if (!(window.kakao && window.kakao.maps)) {
             const script = document.createElement('script');
             script.onload = () => kakao.maps.load(this.getLocationPc);
@@ -106,9 +104,6 @@ export default {
                 navigator.geolocation.getCurrentPosition((position) => {
                     this.lon = position.coords.longitude.toFixed(2);
                     this.lat = position.coords.latitude.toFixed(2);
-
-                    alert(position.coords.longitude.toFixed(2) + "lon   " + position.coords.latitude.toFixed(2) + "lat   ");
-
                     if (!window?.kakao?.maps) return;
                     
                     const geocoder = new kakao.maps.services.Geocoder();
@@ -116,17 +111,6 @@ export default {
                 });
             }
         },
-        // getLocationMobile() { //MOBILE 현재 로컬의 경도와 위도 구하기
-        //     if ( navigator.geolocation ) {
-        //         navigator.geolocation.getCurrentPosition((position) => {
-        //         console.log(position.coords.latitude);
-        //         console.log(position.coords.longitude);
-        //     });
-
-        //     } else {
-        //         alert("geolocation not supported");
-        //     }
-        // },
         searchAreaOpen() { //검색영역
             this.searchInput = "";
             this.searchArea = true;
