@@ -33,7 +33,7 @@
                         <!-- 이번달 -->
                         <td v-for="(item, index) in currDateArr" :key="index" :class="markToday(item)" class="calendar__item calendar__date">
                             <label class="calendar__date__label">
-                                <input type="radio" v-model="checkedDateString" ref="dateInput" :value="`${month}/${item}/${year}`" class="calendar__date__input" name="date">                    
+                                <input type="radio" v-model="checkedDateString" :value="`${month}/${item}/${year}`" class="calendar__date__input" name="date">                    
                                 <span>{{ item }}</span>
                             </label>
                         </td>
@@ -54,7 +54,7 @@
                         <ul v-if="schedule.length" class="schedule__inner">
                             <li v-for="(item, index) in schedule" :key="index + 's'" class="schedule__list">
                                 <span class="schedule__list__text">{{ item.dataValue }}</span>
-                                <button type="button" class="schedule__list__delete" @click="scheduleDelete(item.id)">스케줄 삭제</button>    
+                                <button type="button" @click="scheduleDelete(item.id)" class="schedule__list__delete">스케줄 삭제</button>    
                             </li> 
                         </ul>
 
@@ -62,20 +62,22 @@
                     </div>
 
                     <!-- 스케줄 추가 영역 -->
-                    <div class="schedule__addList" v-show="addScheduleArea">
+                    <div v-show="addScheduleArea" class="schedule__addList">
                         <label class="schedule__addList__label">
                             <input type="text" @keyup.enter="scheduleAdd()" v-model.trim="addScheduleText" class="schedule__addList__input">
                         </label>
+
+                        <button @click="scheduleAdd()" class="schedule__addList__button">추가하기</button>
                     </div>
 
                     <!-- 스케줄 관련 버튼 -->
                     <div class="schedule__buttonWrap">
                         <template v-if="addScheduleArea">
-                            <button type="button" class="schedule__buttonWrap__cancel" @click="showScheduleAdd(false)">스케줄추가 취소</button>
+                            <button type="button" @click="showScheduleAdd(false)" class="schedule__buttonWrap__cancel">스케줄추가 취소</button>
                         </template>
 
                          <template v-else>
-                            <button type="button" class="schedule__buttonWrap__add" @click="showScheduleAdd(true)">스케줄추가</button>
+                            <button type="button" @click="showScheduleAdd(true)" class="schedule__buttonWrap__add">스케줄추가</button>
                         </template>
                     </div>
                 </div>
@@ -208,10 +210,10 @@ export default {
             localStorage.setItem("scheduleList", JSON.stringify(this.scheduleListArr));
 
             this.addScheduleText = "";
-            this.addScheduleArea = false;
+            this.showScheduleAdd(false);
         },
         scheduleDelete(itemId) { 
-            const deleteIndex =  this.scheduleListArr.findIndex((item) => item.itemId == itemId); 
+            const deleteIndex =  this.scheduleListArr.findIndex((item) => item.id == itemId); 
             this.scheduleListArr.splice(deleteIndex, 1);
             localStorage.setItem("scheduleList", JSON.stringify(this.scheduleListArr));
         },

@@ -2,7 +2,7 @@
     <div class="menu">
       <button type="button" :class="menuStatus ? 'close' : ''" @click="menuOpen()" class="menu__button">메뉴</button>
 
-      <nav class="menu__wrapper" v-show="menuStatus">
+      <nav v-show="menuStatus" class="menu__wrapper">
         <router-link :to="`${item.path}`" v-for="(item, index) in this.menuList" :key="index" class="menu__tab">
           {{ item.name }}
         </router-link>
@@ -39,14 +39,15 @@ export default {
       
       &__button {
         position: absolute;
-        top: rem(30);
-        left: rem(26); //@TODO
-        width: rem(50);
-        height: rem(50);
+        top: rem(30px);
+        left: rem(26px); 
+        width: rem(50px);
+        height: rem(50px);
         font-size: 0;
-        background: #cecbc7 url("~@/assets/images/icon-menu.png")no-repeat center/ rem(25) auto;
+        background: #cecbc7 url("~@/assets/images/icon-menu.png")no-repeat center/ rem(25px) auto;
         border: none;
-        border-radius: rem(8);
+        border-radius: rem(8px);
+        box-shadow: rem(0 0 10px) rgba(0, 0, 0, 0.1);
 
         &.close { //@TODO transition
           background-image: url("~@/assets/images/icon-close.png");
@@ -55,19 +56,20 @@ export default {
 
      &__wrapper {
       position: absolute;
-      top: rem(100);
-      left: rem(26); //@TODO
+      top: rem(100px);
+      left: rem(26px);
       background: #cecbc7;
       border-radius: 10px;
+      box-shadow: rem(0 0 10px) rgba(0, 0, 0, 0.1);
     }
 
     &__tab {
       display: block;
-      width: rem(130);
-      border-radius: rem(10);
+      width: rem(130px);
+      border-radius: rem(10px);
       color: #fff;
-      font-size: rem(15);
-      line-height: rem(50);
+      font-size: rem(15px);
+      line-height: rem(50px);
       text-align: center;
 
       &.router-link-exact-active {

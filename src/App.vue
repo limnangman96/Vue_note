@@ -20,6 +20,7 @@ export default {
 
 <style lang="scss">
   .note {
+    overflow: hidden;
     position: relative;
     width: 100vw;
     height: 100vh;

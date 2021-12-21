@@ -3,18 +3,18 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        padding: 50px;
+        padding: rem(35px 25px);
         background: #fff;
         box-sizing: border-box;
-        box-shadow: 0 0 10px rgb(0 0 0 / 3%);
-        border-radius: 10px;
+        box-shadow: rem(0 0 10px) rgb(0 0 0 / 3%);
+        border-radius: rem(10px);
         transform: translate(-50%, -50%);
     }
 
     &__header {
         display: flex;
         position: relative;
-        margin-bottom: 30px;
+        margin-bottom: rem(20px);
         box-sizing: border-box;
         justify-content: space-between;
         align-items: center;
@@ -23,45 +23,41 @@
             .title {
                 &__month {
                     color: #575757;
-                    font-size: 25px;
+                    font-size: rem(23px);
                     font-weight: bold;
                 }
 
                 &__year {
-                    margin-left: 10px;
+                    margin-left: rem(10px);
                     color: #c8c8c8;
-                    font-size: 25px;
+                    font-size: rem(23px);
                 }
             }
         }
 
         &__button {
-            width: 30px;
-            height: 30px;
+            width: rem(30px);
+            height: rem(30px);
             font-size: 0;
-            background: url("~@/assets/images/icon-next.png")no-repeat center / auto 15px;
+            background: url("~@/assets/images/icon-next.png") no-repeat center / rem(auto 15px);
             border: none;
             border-radius: 50%;
 
             &.prev {
                 transform: rotate(180deg);
             }
-
-            &:hover {
-                background: #e7e7e7 url("~@/assets/images/icon-next-white.png")no-repeat center / auto 15px;
-            }
         }            
     }
 
     &__inner {
-        width: 420px;
+        width: rem(280px);
         border-spacing: 0;
     }
 
     &__item {
         display: inline-block;
-        width: 60px;
-        height: 60px;
+        width: rem(40px);
+        height: rem(40px);
         text-align: center;
         cursor: default;
         box-sizing: border-box;
@@ -70,9 +66,9 @@
             display: inline-block;
             width: 100%;
             color: #50e3a4;
-            font-size: 18px;
+            font-size: rem(16px);
             font-weight: normal;
-            line-height: 60px;
+            line-height: rem(40px);
         }
     }
 
@@ -93,10 +89,10 @@
             &:before {
                 content: "";
                 position: absolute;
-                top: 10px;
+                top: rem(6px);
                 left: 50%;
-                width: 8px;
-                height: 8px;
+                width: rem(6px);
+                height: rem(6px);
                 background: #50e3a4;
                 border-radius: 50%;
                 box-sizing: border-box;
@@ -126,7 +122,7 @@
                         width: 80%;
                         height: 80%;
                         background: #50e3a4;
-                        border-radius: 8px;
+                        border-radius: rem(8px);
                         transform: translate(-50%, -50%);
                     } 
                 }
@@ -136,42 +132,40 @@
 
     &__schedule {
         position: relative;
-        margin: 30px 0;
+        margin: rem(25px 0);
         text-align: center;
 
         .schedule {
-            padding-top: 30px;
+            padding-top: rem(20px);
             border-top: 1px solid #ddd;
             color: #575757;
             text-align: left;
 
             &__inner {
-
+                overflow-x: hidden;
+                overflow-y: auto;
+                max-height: 120px;
             }
 
             &__list {
                 position: relative;
-                padding: 0 50px 0 10px;
+                padding: rem(8px 40px 8px 10px);
 
                 &:before {
                     content: "";
                     position: absolute;
                     top: 50%;
                     left: 0;
-                    width: 4px;
-                    height: 4px;
+                    width: rem(4px);
+                    height: rem(4px);
                     background: #575757;
                     border-radius: 50%;
                     transform: translate(0, -50%);
                 }
 
-                &:not(:first-child) {
-                    margin-top: 15px;
-                }
-
                 &__text {
-                    font-size: 16px;
-                    line-height: 20px;   
+                    font-size: rem(15px);
+                    line-height: rem(20px);   
                     word-break: break-all;
                 }
 
@@ -179,10 +173,10 @@
                     position: absolute;
                     top: 50%;
                     right: 0;
-                    width: 35px;
-                    height: 22px;
+                    width: rem(33px);
+                    height: rem(22px);
                     background: #f0efe9;
-                    border-radius: 3px;
+                    border-radius: rem(3px);
                     border: none;
                     font-size: 0;
                     transform: translate(0, -50%);
@@ -192,58 +186,95 @@
                         position: absolute;
                         top: 50%;
                         left: 50%;
-                        width: 10px;
-                        height: 2px;
+                        width: rem(10px);
+                        height: rem(2px);
                         background: #575757;   
-                        border-radius: 10px;
+                        border-radius: rem(10px);
                         transform: translate(-50%, -50%);
                     }
                 }
             }
 
             &__empty {
-                font-size: 16px;
-                line-height: 30px;
+                font-size: rem(15px);
+                line-height: rem(30px);
             }
 
             &__addList {
-                margin-top: 20px;
+                margin-top: rem(20px);
 
                 &__label {
-                    display: block;
+                    display: inline-block;
+                    width: calc(100% - rem(50px));
                     font-size: 0;
+                    vertical-align: middle;
                 }
 
                 &__input {
                     width: 100%;
-                    height: 40px;
-                    padding: 0 10px;
+                    height: rem(40px);
+                    padding: 0 rem(10px);
                     background: #f0efe9;
                     color: #575757;
                     border: 0;
-                    font-size: 16px;
+                    font-size: rem(15px);
                     font-family: "Shippori Antique", sans-serif;
-                    line-height: 20px;
-                    border-radius: 4px;
+                    border-radius: rem(4px);
                     box-sizing: border-box;
+                }
+
+                &__button {
+                    position: relative;
+                    width: rem(33px);
+                    height: rem(40px);
+                    margin-left: rem(17px);
+                    background: #f0efe9;;
+                    border: none;
+                    border-radius: rem(3px);
+                    font-size: 0;
+                    vertical-align: middle;
+
+                    &:before {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: rem(10px);
+                        height: rem(2px);
+                        background: #575757;   
+                        border-radius: rem(10px);
+                        transform: translate(-50%, -50%);
+                    }
+
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        width: rem(2px);
+                        height: rem(10px);
+                        background: #575757;   
+                        border-radius: rem(10px);
+                        transform: translate(-50%, -50%);
+                    }
                 }
             }
 
             &__buttonWrap {
                 position: absolute;
-                bottom: -120px;
+                bottom: rem(-100px);
                 left: 50%;
                 transform: translate(-50%, 0);
          
                 button {
                     position: relative;
-                    width: 80px;
-                    height: 80px;
+                    width: rem(70px);
+                    height: rem(70px);
                     padding: 0;
                     border-radius: 50%;
                     border: none;
                     background: #50e3a4;
-                    box-shadow: 0 0 5px rgb(0 0 0 / 20%);
+                    box-shadow: rem(0 0 5px) rgb(0 0 0 / 20%);
                     font-size: 0;
     
                     &:before {
@@ -251,10 +282,10 @@
                         position: absolute;
                         top: 50%;
                         left: 50%;
-                        width: 20px;
-                        height: 4px;
+                        width: rem(20px);
+                        height: rem(4px);
                         background: #40a97c;
-                        border-radius: 5px;
+                        border-radius: rem(5px);
                         transform: translate(-50%, -50%);
                     }
                 
@@ -264,10 +295,10 @@
                         top: 50%;
                         left: 50%;
                         display: inline-block;
-                        width: 4px;
-                        height: 20px;
+                        width: rem(4px);
+                        height: rem(20px);
                         background: #40a97c;
-                        border-radius: 5px;
+                        border-radius: rem(5px);
                         transform: translate(-50%, -50%);
                     }
                 }
