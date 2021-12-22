@@ -13,7 +13,7 @@
 
     &__header {
         display: flex;
-        padding: rem(40px 30px);
+        padding: rem(35px 30px 30px);
         justify-content: space-between;
         align-items: center;
 
@@ -111,10 +111,6 @@
             background: url('~@/assets/images/icon-delete.png')no-repeat center/ auto 100%;
             border: none;
             font-size: 0;
-
-            &:hover {
-                background-image: url('~@/assets/images/icon-delete-active.png');
-            }
         }
 
         &__check {
@@ -248,7 +244,7 @@
             top: 50%;
             left: 50%;
             padding: rem(20px);
-            width: rem(330px);
+            width: rem(350px);
             background: #fff;
             box-sizing: border-box;
             border-radius: rem(5px);

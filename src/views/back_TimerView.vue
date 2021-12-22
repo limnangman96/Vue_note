@@ -1,38 +1,22 @@
 <template>
     <div class="timer">
       <section class="timer__wrapper">
-        <!-- 타임 존 -->
         <div class="timer__timeZone">
-            <div class="timer__timeZone__inner">
-                <!-- 시간 설정 -->
-                <label v-if="true" class="timer__timeZone__label">
+            <span class="timer__timeZone__inner">
+                <label v-if="false" class="timer__timeZone__label">
                   <input type="text" @keyup="timeLimit($event)" :value="test" class="timer__timeZone__input" maxlength="2" placeholder="0">
                 </label>
 
-                <!-- 시간 보여주기 -->
+                <!-- 최대 1시간 설정 가능 -->
                 <span v-else class="timer__timeZone__time">48:51</span>
-            </div>
+            </span>
         </div>
 
-        <!-- 버튼 영역 -->
         <div class="timer__buttonWrap">
-          <!-- 시작 -->
-          <label class="timer__buttonWrap__label timer__buttonWrap__start">
-            <input type="radio" name="controller">
-            <font-awesome-icon icon="play" class="start__icon"></font-awesome-icon>
-          </label>
+            <button class="timer__buttonWrap__cancel"></button>
 
-          <!-- 일시정지 -->
-          <label class="timer__buttonWrap__label timer__buttonWrap__pause">
-            <input type="radio" name="controller">
-            <font-awesome-icon icon="pause" class="pause__icon"></font-awesome-icon>
-          </label>
-
-          <!-- 리셋 -->
-          <label class="timer__buttonWrap__label timer__buttonWrap__reset">
-            <input type="radio" name="controller">
-            <font-awesome-icon icon="power-off" class="reset__icon"></font-awesome-icon>
-          </label>
+            <button type="button" v-if="notplaying" @click="timerStart()" class="timer__buttonWrap__start">play</button>
+            <button type="button" v-else @click="timerPause()" class="timer__buttonWrap__pause">pause</button>
         </div>
     </section>
   </div>
@@ -83,7 +67,7 @@ export default {
   플레이버튼 누른다 
     > 멈춤 버튼으로 바뀐다. 
     > input hidden span show 
-    > 시간 뿌려준다. (도넛차트에) TODO
+    > 시간 뿌려준다. (도넛차트에)
     > 시간이 카운트다운 된다. 
 
   멈춤버튼 누른다 

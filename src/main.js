@@ -4,8 +4,16 @@ import { router } from './routes/index.js'
 import { store } from './store/index.js';
 import testView from './views/testView.vue';
 
+/* fontAwesome */
+import { library } from "@fortawesome/fontawesome-svg-core"; 
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faPlay, faPause, faPowerOff } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faPlay, faPause, faPowerOff);
+
 Vue.config.productionTip = false; 
 Vue.component("testView", testView); //Vue API (1) 전역 컴포넌트 등록
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 new Vue({
   render: h => h(App),

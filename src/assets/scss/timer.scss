@@ -1,5 +1,144 @@
 .timer {
-    &__test {
-        font-size: rem(16);
+    &__wrapper {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        box-sizing: border-box;
+        border-radius: rem(10px);
+        transform: translate(-50%, -50%);
+    }
+
+    &__timeZone {
+        position: relative;
+        width: rem(270px);
+        height: rem(270px);
+        background: #50e3a4;
+        border: 8px solid #ececec;
+        box-shadow: rem(-10px -10px 15px) rgba(255, 255, 255, .5),
+        rem(10px 10px 15px) rgba(70, 70, 70, .12);
+        border-radius: 50%;
+        box-sizing: border-box;
+
+        &__inner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: rem(240px);
+            height: rem(240px);
+            background: #f0efe9;
+            border-radius: 50%;
+            box-sizing: border-box;
+            transform: translate(-50%, -50%);
+        }
+
+        &__time {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: #50e3a4;
+            font-size: rem(45px);
+            transform: translate(-50%, -50%);
+        }
+
+        &__label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: rem(150px);
+            font-size: rem(40px);
+            font-size: 0;
+            transform: translate(-50%, -50%);
+        }
+
+        &__input {
+            width: 100%;
+            height: rem(60px);
+            padding: 0;
+            background: rgba(255,255,255,.7);
+            border: none;
+            border-radius: 5px;
+            color: #575757;
+            font-size: rem(35px);
+            font-family: "Shippori Antique", sans-serif;
+            text-align: center;
+            box-sizing: border-box;
+        }
+    }
+
+    &__buttonWrap {
+        display: flex;
+        margin-top: rem(50px);
+        vertical-align: middle;
+        justify-content: space-between;
+
+        &__label {
+            position: relative;
+
+            input[type=radio] {
+                width: rem(80px);
+                height: rem(80px);
+                margin: 0;
+                border: 8px solid #ececec;
+                border-radius: rem(20px);
+                box-shadow: rem(-10px -10px 15px) rgba(255, 255, 255, .5),
+                rem(10px 10px 15px) rgba(70, 70, 70, .12);
+                appearance: none;
+
+                &:checked {
+                    box-shadow: rem(-10px -10px 15px) rgba(255, 255, 255, .5),
+                    rem(10px 10px 15px) rgba(70, 70, 70, .12),
+                    inset rem(-10px -10px 15px) rgba(255, 255, 255, .5),
+                    inset rem(10px 10px 15px) rgba(70, 70, 70, .12);
+
+                    & + .start__icon {
+                        color: #50e3a4;
+                    }
+
+                    & + .pause__icon {
+                        color: #50e3a4;
+                    }
+
+                    & + .reset__icon {
+                        color: #50e3a4;
+                    }
+                }
+            }
+        }
+
+        &__start {
+            .start__icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: rem(25px);
+                height: rem(25px);
+                color: #ddd;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        &__pause {
+            .pause__icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: rem(25px);
+                height: rem(25px);
+                color: #ddd;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        &__reset {
+            .reset__icon {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: rem(25px);
+                height: rem(25px);
+                color: #ddd;
+                transform: translate(-50%, -50%);
+            }
+        }
     }
 }
